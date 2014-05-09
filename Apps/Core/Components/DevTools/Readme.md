@@ -81,3 +81,35 @@ Here is an example Component.yaml file:
       - Apps/Core/Cache
 ```
 
+# DevToolsTrait
+
+This is a PHP trait that provides you with access to all core components that you need to develop your plugin.
+To use the trait, simply `use` the `Webiny\Apps\Core\Components\DevTools\Lib\DevToolsTrait` inside your class, like this:
+
+````php
+class MyClass
+{
+    use Webiny\Apps\Core\Components\DevTools\Lib\DevToolsTrait;
+
+    public function myMethod()
+    {
+        // get database
+        $this->_wDatabase()->find(...);
+
+        // get storage
+        $this->_wStorage();
+    }
+}
+````
+
+You have access to following components:
+ - `_wDatabase`: get access to your current database
+ - `_wStorage`: get access to your storage
+ - `_wCache`: get access to cache system
+ - `_wConfig`: get current system configuration
+ - `_wRequest`: get current request data, including access to cookie and session storage
+ - `_wEvents`: get access to current events
+ - `_wServiceOutput`: returns an instance of `ServiceOutput` class that you must use to return the results from REST service
+ - `_wService`: TODO
+ - `_wEntity`: TODO
+ - `_wTemplateEngine`: TODO

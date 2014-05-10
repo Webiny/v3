@@ -26,12 +26,12 @@ abstract class UninstallAbstract
      *
      * @return void
      */
-    public abstract function uninstall_successful();
+    public abstract function uninstallSuccessful();
 
     /**
      * Callback that is triggered when the component uninstall failed.
      *
      * @return void
      */
-    public abstract function uninstall_failed();
+    public abstract function uninstallFailed();
 }

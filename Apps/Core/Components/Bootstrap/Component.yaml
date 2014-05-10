@@ -1,7 +1,7 @@
-name: Bootstrap
-version: 0.1.0
-author: Webiny LTD
-dependency:
+Name: Bootstrap
+Version: 0.1.0
+Author: Webiny LTD
+Dependency:
   - Apps/Core/Templating
   - Apps/Core/EventManager
   - Apps/Core/Storage

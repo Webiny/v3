@@ -28,12 +28,12 @@ abstract class InstallAbstract
      *
      * @return void
      */
-    public abstract function install_successful();
+    public abstract function installSuccessful();
 
     /**
      * Callback that is triggered when the component installation failed.
      *
      * @return void
      */
-    public abstract function install_failed();
+    public abstract function installFailed();
 }

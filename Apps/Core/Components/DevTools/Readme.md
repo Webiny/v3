@@ -19,8 +19,8 @@ The `install` method will be called when the component is marked for installatio
 only installed once all its dependencies have been resolved. It the system is unable to resolve the dependencies locally,
 it will try automatically to download and install the missing components.
 
-There are also two callbacks that you can implement. The `installation_successful` callback is triggered when the component
-is installed successfully, and the `installation_failed` callback that is triggered when the installation fails.
+There are also two callbacks that you can implement. The `installationSuccessful` callback is triggered when the component
+is installed successfully, and the `installationFailed` callback that is triggered when the installation fails.
 
 
 ## Uninstallation
@@ -33,48 +33,54 @@ remove all the created collections, data from cache and storage so you don't hav
 premium component, the system will also remove any credit card subscriptions and similar.
 
 Like with the installation process, the uninstall provides you with the callbacks that you can implement.
-`uninstall_successful` is triggered when the component was removed successfully. The `uninstall_failed` callback is
+`uninstallSuccessful` is triggered when the component was removed successfully. The `uninstallFailed` callback is
 triggered when uninstall failed.
 
 ## Events
 
-The difference between using the callback methods (`installation_successful`, `installation_failed`) and events is
+The difference between using the callback methods (`installationSuccessful`, `installationFailed`, ...) and events is
 that callback methods are called only on installation  of that particular component, while events are called when
 any component gets installed or uninstalled.
 
 There are couple of events you can subscribe to:
 
-### `installation_successful`
+### `installationSuccessful`
 
 This event is broadcasted when a component has been installed successfully.
 // TODO: define which arguments the callback gets
 
-### `installation_failed`
+### `installationFailed`
 
 This event is broadcasted when a component installation fails.
 // TODO: define which arguments the callback gets
 
-### `uninstallation_successful`
+### `uninstallationSuccessful`
 
 This event is broadcasted when a component is uninstalled successfully.
 // TODO: define which arguments the callback gets
+
+## `uninstallFailed`
+
+This event is broadcasted when a component uninstallation fails.
+// TODO: define which arguments the callback gets
+
 
 ## Component.yaml
 
 This file contains information about the component and its details. It should be written in YAML format (http://www.yaml.org).
 It should contain the following information:
-- `name`: name of the component (human readable)
-- `version`: component version (e.g. 1.0.1)
-- `author`: name of the author (e.g. Webiny LTD)
-- `dependency`: a list of dependencies that need to be resolved, before the component can be installed
+- `Name`: name of the component (human readable)
+- `Version`: component version (e.g. 1.0.1)
+- `Author`: name of the author (e.g. Webiny LTD)
+- `Dependency`: a list of dependencies that need to be resolved, before the component can be installed
 
 Here is an example Component.yaml file:
 
 ```
-    name: Bootstrap
-    version: 0.1.0
-    author: Webiny LTD
-    dependency:
+    Name: Bootstrap
+    Version: 0.1.0
+    Author: Webiny LTD
+    Dependency:
       - Apps/Core/Templating
       - Apps/Core/EventManager
       - Apps/Core/Storage

@@ -8,8 +8,6 @@
 
 namespace WebinyPlatform\Apps\Core\Components\DevTools\Lib;
 
-use WebinyPlatform\Apps\Core\Components\DevTools\Lib\Config;
-
 /**
  * This trait provides you with access to all core components.
  */
@@ -67,10 +65,11 @@ trait DevToolsTrait
     /**
      * Get current request information.
      *
-     * @return Request
+     * @return \Webiny\Component\Http\Request
      */
     protected function _wRequest()
     {
+        return Request::getInstance()->getRequest();
     }
 
     /**

@@ -1,4 +1,5 @@
-Environment: production
-AbsolutePath: /var/www/projects/webiny/
-WebPath: https://admin.w3.com/
-DomainPath: http://mysite.com/
+Application:
+  Environment: production
+  AbsolutePath: /var/www/projects/webiny/
+  WebPath: https://admin.w3.com/
+  DomainPath: http://mysite.com/

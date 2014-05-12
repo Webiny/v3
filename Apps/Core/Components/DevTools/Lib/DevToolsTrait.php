@@ -8,6 +8,8 @@
 
 namespace WebinyPlatform\Apps\Core\Components\DevTools\Lib;
 
+use Webiny\Component\Cache\CacheStorage;
+
 /**
  * This trait provides you with access to all core components.
  */
@@ -19,7 +21,7 @@ trait DevToolsTrait
      *
      * @return Database
      */
-    protected function _wDatabase()
+    static protected function _wDatabase()
     {
     }
 
@@ -28,7 +30,7 @@ trait DevToolsTrait
      *
      * @return Storage
      */
-    protected function _wStorage()
+    static protected function _wStorage()
     {
         return Storage::getInstance();
     }
@@ -38,7 +40,7 @@ trait DevToolsTrait
      *
      * @return ClassLoader
      */
-    protected function _wClassLoader()
+    static protected function _wClassLoader()
     {
         return ClassLoader::getInstance();
     }
@@ -46,10 +48,11 @@ trait DevToolsTrait
     /**
      * Get access to caching system.
      *
-     * @return Cache
+     * @return CacheStorage
      */
-    protected function _wCache()
+    static protected function _wCache()
     {
+        return Cache::getInstance()->getCache();
     }
 
     /**
@@ -57,7 +60,7 @@ trait DevToolsTrait
      *
      * @return Config
      */
-    protected function _wConfig()
+    static protected function _wConfig()
     {
         return Config::getInstance();
     }
@@ -67,7 +70,7 @@ trait DevToolsTrait
      *
      * @return \Webiny\Component\Http\Request
      */
-    protected function _wRequest()
+    static protected function _wRequest()
     {
         return Request::getInstance()->getRequest();
     }
@@ -77,35 +80,35 @@ trait DevToolsTrait
      *
      * @return Events
      */
-    protected function _wEvents()
+    static protected function _wEvents()
     {
     }
 
     /**
      * @TODO This should return a class that the user should use to build an output for REST requests
      */
-    protected function _wServiceOutput()
+    static protected function _wServiceOutput()
     {
     }
 
     /**
      * @TODO This should return a class that we can use to contact REST services directly from within PHP
      */
-    protected function _wService()
+    static protected function _wService()
     {
     }
 
     /**
      * @TODO This should return an instance of EntityAbstract, or some entity in particular.
      */
-    protected function _wEntity($entity)
+    static protected function _wEntity($entity)
     {
     }
 
     /**
      * @TODO This should return an instance of template engine...
      */
-    protected function _wTemplateEngine()
+    static protected function _wTemplateEngine()
     {
     }
 }

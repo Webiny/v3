@@ -8,7 +8,6 @@
 
 namespace WebinyPlatform\Apps\Core\Components\Bootstrap\Lib;
 
-use OAuth2\Exception;
 use Webiny\Component\StdLib\StdObjectTrait;
 use WebinyPlatform\Apps\Core\Components\DevTools\Lib\DevToolsTrait;
 use Webiny\Component\StdLib\SingletonTrait;
@@ -34,9 +33,10 @@ class Bootstrap
         // set the environment
         $this->_setEnvironment($this->_wConfig()->get("Application.Environment", "production"));
 
-        // init cache
+        // scan all components to get registered subscribers
 
-        // init database
+
+        // fire event
     }
 
     private function _buildConfiguration($configSet)

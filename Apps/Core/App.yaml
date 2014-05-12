@@ -1,7 +1,8 @@
-author: Webiny LTD
-author_link: http://www.webiny.com
+authorName: Webiny LTD
+authorLink: http://www.webiny.com
+authorEmail: info@webiny.com
 
-app_name: Core
-app_version: 0.1.0
-app_link: http://www.webiny.com/store/webiny/core/
-app_description: The Core app provides the essential functions for Webiny platform.
+appName: Core
+appVersion: 0.1.0
+appLink: http://www.webiny.com/store/webiny/core/
+appDescription: The Core app provides the essential functions for Webiny platform.

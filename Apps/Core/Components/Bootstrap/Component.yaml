@@ -6,3 +6,4 @@ Dependency:
   - Apps/Core/EventManager
   - Apps/Core/Storage
   - Apps/Core/Cache
+  - Apps/Core/DevTools

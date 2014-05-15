@@ -1,0 +1,13 @@
+Name: Package manager
+Version: 0.1.0
+Author: Webiny LTD
+Dependency:
+  - Apps/Core/Templating
+  - Apps/Core/EventManager
+  - Apps/Core/Storage
+  - Apps/Core/Cache
+  - Apps/Core/DevTools
+Events:
+  Core:
+    System:
+      ClearCache: Lib/PackageManager/PackageScanner::clearCacheCallback

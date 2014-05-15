@@ -46,11 +46,23 @@ class Config
     /**
      * Append a configuration file. Must be in YAML format.
      *
-     * @param string $resource Path to the config, should be relative to app root.
+     * @param string $resource Path to the config file, should be relative to app root.
      */
     public function appendConfig($resource)
     {
-        self::$_config->mergeWith(self::$_configReader->yaml(Storage::getInstance()->getPath($resource)));
+        self::$_config->mergeWith($this->parseConfig($resource));
+    }
+
+    /**
+     * Parses and returns the config without appending it to the global configuration.
+     *
+     * @param string $resource Path to the config file, should be relative to app root.
+     *
+     * @return ConfigObject
+     */
+    public function parseConfig($resource)
+    {
+        return self::$_configReader->yaml(Storage::getInstance()->getPath($resource));
     }
 
     /**
@@ -66,7 +78,13 @@ class Config
         return self::$_config->get($name, $default);
     }
 
-    public function getConfig(){
+    /**
+     * Returns the whole global configuration.
+     *
+     * @return ConfigObject
+     */
+    public function getConfig()
+    {
         return self::$_config;
     }
 

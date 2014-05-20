@@ -9,6 +9,8 @@
 namespace WebinyPlatform\Apps\Core\Components\PackageManager\Lib;
 
 use Webiny\Component\Config\ConfigObject;
+use Webiny\Component\Router\Router;
+use Webiny\Component\StdLib\StdObjectTrait;
 
 /**
  * Contains information about the component.
@@ -16,6 +18,8 @@ use Webiny\Component\Config\ConfigObject;
  */
 class Component
 {
+    use StdObjectTrait;
+
     /**
      * @var string Component name.
      */
@@ -32,15 +36,20 @@ class Component
     private $_path;
 
     /**
-     * @var ConfigObject Additional information about the component from Component.yaml.
+     * @var string Namespace under which this components is placed.
      */
-    private $_info;
+    private $_namespace;
 
     /**
      * @var array An array of events to which the component is listening.
      */
-    private $_events;
+    private $_events = [];
 
+
+    /**
+     * @var array An array of registered routes.
+     */
+    private $_routes = [];
 
     /**
      * Component base constructor.
@@ -53,14 +62,24 @@ class Component
     public function __construct(ConfigObject $info, $path)
     {
         $this->_path = $path;
-        $this->_info = $info;
+        $this->_namespace = $this->str($path)->replace([
+                                                           'Public',
+                                                           DIRECTORY_SEPARATOR
+                                                       ], [
+                                                           '\\WebinyPlatform',
+                                                           '\\'
+                                                       ]
+        )->val();
 
-        $this->_name = $info->get('name', '');
-        $this->_version = $info->get('version', '');
+        $this->_name = $info->get('Name', '');
+        $this->_version = $info->get('Version', '');
 
         if ($this->_name == '' || $this->_version == '') {
             throw new \Exception("A component must have both name and version properties defined.");
         }
+
+        $this->_parseEvents($info);
+        $this->_parseRoutes($info);
     }
 
     /**
@@ -78,7 +97,8 @@ class Component
      *
      * @return string Component version.
      */
-    public function getVersion(){
+    public function getVersion()
+    {
         return $this->_version;
     }
 
@@ -90,14 +110,6 @@ class Component
     public function getPath()
     {
         return $this->_path;
-    }
-
-    /**
-     * @return ConfigObject
-     */
-    public function getInfo()
-    {
-        return $this->_info;
     }
 
     /**
@@ -114,5 +126,42 @@ class Component
     public function getRoutes()
     {
         return $this->_info->get('Routes', []);
+    }
+
+    /**
+     * Parses the events attached to the component.
+     *
+     * @param ConfigObject $info Parsed Component.yaml ConfigObject.
+     */
+    private function _parseEvents($info)
+    {
+        $eventConfig = $info->get('Events', [], true);
+        if (count($eventConfig) > 0) {
+            foreach ($eventConfig as $eventGroupName => $eventGroups) {
+                $eventName = $eventGroupName;
+                foreach ($eventGroups as $subGroupName => $subGroupEvents) {
+                    $eventName .= '.' . $subGroupName;
+                    foreach ($subGroupEvents as $eName => $callback) {
+                        $eventName .= '.' . $eName;
+
+                        $callback = $this->str($callback)->replace('/', '\\');
+
+                        if ($callback->startsWith('\\')) {
+                            $this->_events[$eventName] = $callback->val();
+                        } else {
+                            $this->_events[$eventName] = $this->_namespace . '\\' . $callback->val();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private function _parseRoutes($info)
+    {
+        $routes = $info->get('Routes', false);
+        if($routes){
+            $this->_routes = new Router($routes);
+        }
     }
 }

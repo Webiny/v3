@@ -3,4 +3,12 @@ Version: 0.1.0
 Events:
   Core:
     System:
-      ClearCache: Lib/PackageManager/PackageScanner::clearCacheCallback
+      ClearCache: Lib\PackageScanner::clearCacheCallback
+      NestoDrugo: \Zend\Adapter\Naprav::nesto
+Routes:
+  routeName:
+    path: blog
+    callback: Lib\PackageScanner::clearCacheCallback
+  route2:
+    path: blog/some-id/
+    callback: Lib/Class::doSomething

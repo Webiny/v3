@@ -27,7 +27,7 @@ class Bootstrap
 
         // get additional config set
         $configSet = $this->_getConfigSet();
-        if($configSet){
+        if ($configSet) {
             $this->_buildConfiguration($configSet);
         }
 
@@ -35,14 +35,14 @@ class Bootstrap
         $this->_setEnvironment($this->_wConfig()->get("Application.Environment", "production"));
 
         // scan all components to get registered subscribers
-        PackageScanner::getInstance();
+        die(print_r(PackageScanner::getInstance()->extractEvents()));
 
         // fire event
     }
 
     private function _buildConfiguration($configSet)
     {
-        try{
+        try {
             // get the configuration files
             $dir = $this->_wStorage()->readDir("Public/Configs/" . $configSet)->filter("*.yaml");
 
@@ -53,8 +53,8 @@ class Bootstrap
 
             // append config sets
             $this->_wConfig()->appendConfig("Public/Configs/ConfigSets.yaml");
-        }catch (\Exception $e){
-            throw new \Exception("Unable to build config set ".$configSet.". ".$e->getMessage());
+        } catch (\Exception $e) {
+            throw new \Exception("Unable to build config set " . $configSet . ". " . $e->getMessage());
         }
     }
 

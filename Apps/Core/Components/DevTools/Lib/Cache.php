@@ -32,11 +32,15 @@ class Cache
     protected function _init()
     {
         $cacheDriver = Config::getInstance()->getConfig()->get("Cache.Driver", "Null");
-        $cacheParams = Config::getInstance()->getConfig()->get("Cache.Arguments", [])->toArray();
+        $cacheParams = Config::getInstance()->getConfig()->get("Cache.Arguments", [], true);
 
-        try{
-            self::$_cache = call_user_func_array(['\Webiny\Component\Cache\Cache', $cacheDriver], $cacheParams);
-        }catch (\Exception $e){
+        try {
+            self::$_cache = call_user_func_array([
+                                                     '\Webiny\Component\Cache\Cache',
+                                                     $cacheDriver
+                                                 ], $cacheParams
+            );
+        } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
@@ -46,7 +50,8 @@ class Cache
      *
      * @return CacheStorage
      */
-    public function getCache(){
+    public function getCache()
+    {
         return self::$_cache;
     }
 }

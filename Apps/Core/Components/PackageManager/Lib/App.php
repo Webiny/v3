@@ -9,12 +9,14 @@
 namespace WebinyPlatform\Apps\Core\Components\PackageManager\Lib;
 
 use Webiny\Component\Config\ConfigObject;
+use WebinyPlatform\Apps\Core\Components\DevTools\Lib\DevToolsTrait;
 
 /**
  * Class that holds information about an application.
  */
 class App extends PackageAbstract
 {
+    use DevToolsTrait;
 
     /**
      * Application base constructor.
@@ -50,13 +52,15 @@ class App extends PackageAbstract
     {
         $components = [];
 
-        $componentDir = $this->_wStorage()->readDir($this->getPath());
+        $componentDir = $this->_wStorage()->readDir($this->getPath().'/Components');
         foreach ($componentDir as $c) {
             // parse component info
-            $info = $this->_wConfig()->parseConfig($c->getKey().'/Component.yaml');
+
+            $info = $this->_wConfig()->parseConfig($c->getKey() . '/Component.yaml');
 
             // create component instance
             $components[$c->getKey()] = new Component($info, $c->getKey());
+        
         }
 
         return $components;

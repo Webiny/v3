@@ -34,21 +34,17 @@ class PackageScanner
             $this->_packages = $this->unserialize($data);
         } else {
             // scan Apps folder
-            $this->_scanApps('Public/Apps');
+            $this->_packages['apps'] = $this->_scanApps('Public/Apps');
 
             // scan Plugins folder
-            $this->_scanPlugins('Public/Plugins');
+            $this->_packages['plugins'] = $this->_scanPlugins('Public/Plugins');
 
             // scan Themes folder
-            $this->_scanThemes('Public/Themes');
+            $this->_packages['themes'] = $this->_scanThemes('Public/Themes');
 
             // store the packages in cache
-            $this->_wCache()->save(self::CACHE_KEY, $this->_packages, (30*60));
+            $this->_wCache()->save(self::CACHE_KEY, $this->_packages, (30 * 60));
         }
-    }
-
-    public function __wakeup(){
-
     }
 
     static function clearCacheCallback($event)
@@ -61,6 +57,13 @@ class PackageScanner
         return $this->_packages;
     }
 
+    public function extractEvents($package = "")
+    {
+        foreach ($this->_packages['apps'] as $app) {
+            die(print_r($app->getComponents()));
+        }
+    }
+
     public function getPackage($package)
     {
         return $this->_packages[$package]; //check if isset
@@ -68,29 +71,32 @@ class PackageScanner
 
     private function _scanApps($appRoot)
     {
-        $this->__scan($appRoot, "App");
+        return $this->__scan($appRoot, "App");
     }
 
     private function _scanPlugins($pluginsRoot)
     {
-        $this->__scan($pluginsRoot, "Plugin");
+        return $this->__scan($pluginsRoot, "Plugin");
     }
 
     private function _scanThemes($themesRoot)
     {
-        $this->__scan($themesRoot, "Theme");
+        return $this->__scan($themesRoot, "Theme");
     }
 
     private function __scan($root, $object)
     {
         $packages = $this->_wStorage()->readDir($root);
+        $result = [];
         foreach ($packages as $package) {
             // parse packageinfo
-            $info = $this->_wConfig()->parseConfig($package->getKey() . '/'.$object.'.yaml');
+            $info = $this->_wConfig()->parseConfig($package->getKey() . '/' . $object . '.yaml');
 
             // create package instance
-            $class = '\\WebinyPlatform\\Apps\\Core\\Components\\PackageManager\\Lib\\'.$object;
-            $this->_packages[$package->getKey()] = new $class($info, $package->getKey());
+            $class = '\\WebinyPlatform\\Apps\\Core\\Components\\PackageManager\\Lib\\' . $object;
+            $result[$package->getKey()] = new $class($info, $package->getKey());
         }
+
+        return $result;
     }
 }

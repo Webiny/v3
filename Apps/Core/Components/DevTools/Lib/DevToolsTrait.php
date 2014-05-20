@@ -82,6 +82,7 @@ trait DevToolsTrait
      */
     static protected function _wEvents()
     {
+        return Events::getInstance();
     }
 
     /**

@@ -32,7 +32,6 @@ class PackageScanner
         $data = $this->_wCache()->read(self::CACHE_KEY);
         if ($data) {
             $this->_packages = $this->unserialize($data);
-            echo "cache";
         } else {
             // scan Apps folder
             $this->_scanApps('Public/Apps');
@@ -45,8 +44,11 @@ class PackageScanner
 
             // store the packages in cache
             $this->_wCache()->save(self::CACHE_KEY, $this->_packages, (30*60));
-            echo "clean";
         }
+    }
+
+    public function __wakeup(){
+
     }
 
     static function clearCacheCallback($event)

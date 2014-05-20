@@ -1,0 +1,17 @@
+name: The42
+version: 1.0.1
+link: http://www.webiny.com/store/webiny/themes/the42
+description: Lite and responsive theme for Webiny Platform.
+
+authorName: Webiny LTD
+authorLink: http://www.webiny.com
+authorEmail: info@webiny.com
+
+Dependency:
+  - Plugins/MailChimp 0.0.1
+  - Apps/Core 0.1.0
+
+Events:
+  Newsletter:
+    Subscriber:
+      Subscribe: Services/Subscriber::insert

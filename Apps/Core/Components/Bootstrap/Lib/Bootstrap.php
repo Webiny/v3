@@ -35,7 +35,7 @@ class Bootstrap
         $this->_setEnvironment($this->_wConfig()->get("Application.Environment", "production"));
 
         // scan all components to get registered subscribers
-
+        PackageScanner::getInstance();
 
         // fire event
     }

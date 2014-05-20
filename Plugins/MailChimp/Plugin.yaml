@@ -1,0 +1,17 @@
+name: MailChimp
+version: 0.0.1
+link: http://www.webiny.com/store/webiny/plugins/mailchimp/
+description: This plugin automatically transfers the newsletter subscribers into your MailChimp account.
+
+authorName: Webiny LTD
+authorLink: http://www.webiny.com
+authorEmail: info@webiny.com
+
+Dependency:
+  - Apps/Core 0.1.0
+  - Apps/Newsletter 0.1.0
+
+Events:
+  Newsletter:
+    Subscriber:
+      Subscribe: Services/Subscriber::insert

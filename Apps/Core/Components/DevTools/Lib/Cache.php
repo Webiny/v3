@@ -31,8 +31,8 @@ class Cache
      */
     protected function _init()
     {
-        $cacheDriver = Config::getInstance()->getConfig()->get("Cache.driver", "Null");
-        $cacheParams = Config::getInstance()->getConfig()->get("Cache.params", []);
+        $cacheDriver = Config::getInstance()->getConfig()->get("Cache.Driver", "Null");
+        $cacheParams = Config::getInstance()->getConfig()->get("Cache.Arguments", [])->toArray();
 
         try{
             self::$_cache = call_user_func_array(['\Webiny\Component\Cache\Cache', $cacheDriver], $cacheParams);

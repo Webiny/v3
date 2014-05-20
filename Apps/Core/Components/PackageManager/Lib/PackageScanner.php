@@ -32,10 +32,20 @@ class PackageScanner
         $data = $this->_wCache()->read(self::CACHE_KEY);
         if ($data) {
             $this->_packages = $this->unserialize($data);
+            echo "cache";
         } else {
             // scan Apps folder
-            $this->_scanApplications('Public/Apps');
+            $this->_scanApps('Public/Apps');
 
+            // scan Plugins folder
+            $this->_scanPlugins('Public/Plugins');
+
+            // scan Themes folder
+            $this->_scanThemes('Public/Themes');
+
+            // store the packages in cache
+            $this->_wCache()->save(self::CACHE_KEY, $this->_packages, (30*60));
+            echo "clean";
         }
     }
 
@@ -54,23 +64,31 @@ class PackageScanner
         return $this->_packages[$package]; //check if isset
     }
 
-    private function _scanApplications($applicationsRoot)
+    private function _scanApps($appRoot)
     {
-        $apps = $this->_wStorage()->readDir($applicationsRoot);
-        foreach ($apps as $app) {
-            // parse app info
-            $info = $this->_wConfig()->parseConfig($app->getKey().'/App.yaml');
-
-            // scan the app for components
-            $components = $this->_wStorage()->readDir($app->getKey() . "/Components/");
-            foreach ($components as $component) {
-
-            }
-        }
+        $this->__scan($appRoot, "App");
     }
 
     private function _scanPlugins($pluginsRoot)
     {
+        $this->__scan($pluginsRoot, "Plugin");
+    }
 
+    private function _scanThemes($themesRoot)
+    {
+        $this->__scan($themesRoot, "Theme");
+    }
+
+    private function __scan($root, $object)
+    {
+        $packages = $this->_wStorage()->readDir($root);
+        foreach ($packages as $package) {
+            // parse packageinfo
+            $info = $this->_wConfig()->parseConfig($package->getKey() . '/'.$object.'.yaml');
+
+            // create package instance
+            $class = '\\WebinyPlatform\\Apps\\Core\\Components\\PackageManager\\Lib\\'.$object;
+            $this->_packages[$package->getKey()] = new $class($info, $package->getKey());
+        }
     }
 }

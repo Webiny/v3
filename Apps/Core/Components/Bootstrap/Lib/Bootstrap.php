@@ -11,6 +11,7 @@ namespace WebinyPlatform\Apps\Core\Components\Bootstrap\Lib;
 use Webiny\Component\StdLib\StdObjectTrait;
 use WebinyPlatform\Apps\Core\Components\DevTools\Lib\DevToolsTrait;
 use Webiny\Component\StdLib\SingletonTrait;
+use WebinyPlatform\Apps\Core\Components\PackageManager\Lib\PackageScanner;
 
 /**
  * This class is included in the index.php and it responsible to bootstrap the application.

@@ -85,6 +85,12 @@ trait DevToolsTrait
         return Events::getInstance();
     }
 
+
+    static protected function _wRouter()
+    {
+        return Router::getInstance();
+    }
+
     /**
      * @TODO This should return a class that the user should use to build an output for REST requests
      */

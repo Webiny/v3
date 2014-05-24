@@ -27,6 +27,7 @@ class App extends PackageAbstract
     public function __construct(ConfigObject $info, $path)
     {
         parent::__construct($info, $path, "app");
+        $this->_scanComponents();
     }
 
     /**
@@ -36,10 +37,6 @@ class App extends PackageAbstract
      */
     public function getComponents()
     {
-        if (empty($this->_components)) {
-            $this->_components = $this->_scanComponents();
-        }
-
         return $this->_components;
     }
 
@@ -50,8 +47,6 @@ class App extends PackageAbstract
      */
     private function _scanComponents()
     {
-        $components = [];
-
         $componentDir = $this->_wStorage()->readDir($this->getPath().'/Components');
         foreach ($componentDir as $c) {
             // parse component info
@@ -59,11 +54,9 @@ class App extends PackageAbstract
             $info = $this->_wConfig()->parseConfig($c->getKey() . '/Component.yaml');
 
             // create component instance
-            $components[$c->getKey()] = new Component($info, $c->getKey());
+            $this->_components[$c->getKey()] = new Component($info, $c->getKey());
         
         }
-
-        return $components;
     }
 
 }

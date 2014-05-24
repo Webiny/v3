@@ -15,6 +15,7 @@ use Webiny\Component\Config\ConfigObject;
  */
 class Plugin extends PackageAbstract
 {
+    use ParsersTrait;
 
     /**
      * Plugin base constructor.
@@ -25,6 +26,10 @@ class Plugin extends PackageAbstract
     public function __construct(ConfigObject $info, $path)
     {
         parent::__construct($info, $path, "plugin");
+
+        $this->_parseNamespace($path);
+        $this->_parseEvents($info);
+        $this->_parseRoutes($info);
     }
 
 }

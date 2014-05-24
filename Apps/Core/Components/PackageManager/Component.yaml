@@ -4,7 +4,6 @@ Events:
   Core:
     System:
       ClearCache: Lib\PackageScanner::clearCacheCallback
-      NestoDrugo: \Zend\Adapter\Naprav::nesto
 Routes:
   routeName:
     path: blog

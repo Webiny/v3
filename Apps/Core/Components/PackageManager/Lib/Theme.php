@@ -15,6 +15,8 @@ use Webiny\Component\Config\ConfigObject;
  */
 class Theme extends PackageAbstract
 {
+    use ParsersTrait;
+
     /**
      * Base theme constructor.
      *
@@ -24,6 +26,10 @@ class Theme extends PackageAbstract
     public function __construct(ConfigObject $info, $path)
     {
         parent::__construct($info, $path, "theme");
+
+        $this->_parseNamespace($path);
+        $this->_parseEvents($info);
+        $this->_parseRoutes($info);
     }
 
 }

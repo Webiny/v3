@@ -1,0 +1,5 @@
+- test if everything is returned ok by the cache
+
+- parse the apps/plugins/themes from the "Clients" folder (see how to cache that)
+
+- dependency injection resolver

@@ -6,17 +6,20 @@
  * @license   http://www.webiny.com/platform/license
  */
 use Webiny\Component\ClassLoader\ClassLoader;
+use Webiny\Component\Config\ConfigObject;
+use Webiny\Component\ServiceManager\ServiceManager;
 use WebinyPlatform\Apps\Core\Components\Bootstrap\Lib\Bootstrap;
+
 
 /**
  * Get absolute path to app root.
  */
-$absPath = realpath(dirname(__FILE__).'/../').'/';
+$absPath = realpath(dirname(__FILE__) . '/../') . '/';
 
 /**
  * Register default autoloader before we can do anything else.
  */
-require $absPath.'Vendors/Webiny/Component/ClassLoader/ClassLoader.php';
+require $absPath . 'Vendors/Webiny/Component/ClassLoader/ClassLoader.php';
 ClassLoader::getInstance()->registerMap([
                                             'WebinyPlatform' => $absPath . 'Public',
                                             'Webiny'         => $absPath . 'Vendors/Webiny'
@@ -26,4 +29,32 @@ ClassLoader::getInstance()->registerMap([
 /**
  * Initialize the bootstrap
  */
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 Bootstrap::getInstance();
+
+
+/**
+ * SERVICE MANAGER TEST
+ */
+$config = [
+    'class'     => '\Webiny\Component\Storage\Storage',
+    'arguments' => [
+        'driver' => [
+            'object'           => '\Webiny\Component\Storage\Driver\AmazonS3\AmazonS3',
+            'object_arguments' => [
+                'AKIAIQ2AM5EWWMP32EZA',
+                '/Osx2UOgAV4X+wCkT1UC9j9AexJWXjDxcDQcy3WB',
+                'webiny',
+                false
+            ]
+        ]
+    ],
+    'tags' => ['cloud']
+];
+ServiceManager::getInstance()->createService('mojServis', new ConfigObject($config));
+
+$amazon = ServiceManager::getInstance()->getServicesByTag('cloud');
+
+die(print_r($amazon));
+

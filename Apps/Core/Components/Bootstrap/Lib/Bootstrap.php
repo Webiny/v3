@@ -33,9 +33,8 @@ class Bootstrap
 
         // set the environment
         $this->_setEnvironment($this->_wConfig()->get("Application.Environment", "production"));
-
         // scan all components to get registered subscribers
-        die(print_r(PackageScanner::getInstance()->listPackages()));
+        //die(print_r(PackageScanner::getInstance()->listPackages()));
 
         // fire event
     }
@@ -61,7 +60,8 @@ class Bootstrap
     private function _getConfigSet()
     {
         $configSets = $this->_wConfig()->get("ConfigSets", []);
-        $currentDomain = $this->str($this->_wRequest()->getCurrentUrl(true)->getDomain())->caseLower()->trimRight('/')
+        $url = $this->_wRequest()->getCurrentUrl(true)->getDomain();
+        $currentDomain = $this->str($url)->caseLower()->trimRight('/')
                               ->val();
 
         $configSet = false;

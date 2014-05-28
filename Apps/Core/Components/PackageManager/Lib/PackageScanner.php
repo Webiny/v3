@@ -68,12 +68,12 @@ class PackageScanner
             $this->_packages['themes'] = $this->_scanThemes('Public/Themes');
 
             // store the packages, events and routes in cache
-            $packageData = [
+           /* $packageData = [
                 'packages'  => $this->_packages,
                 'events'    => $this->_wEvents()->getListeners(),
                 'routes'    => $this->_wRouter()->getRoutes()
             ];
-            $this->_wCache()->save(self::CACHE_KEY, $packageData, (30 * 60));
+            $this->_wCache()->save(self::CACHE_KEY, $packageData, (30 * 60));*/
             unset($packageData);
         }
     }

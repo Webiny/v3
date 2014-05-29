@@ -37,24 +37,48 @@ Bootstrap::getInstance();
 /**
  * SERVICE MANAGER TEST
  */
-$config = [
-    'class'     => '\Webiny\Component\Storage\Storage',
-    'arguments' => [
-        'driver' => [
-            'object'           => '\Webiny\Component\Storage\Driver\AmazonS3\AmazonS3',
-            'object_arguments' => [
-                'AKIAIQ2AM5EWWMP32EZA',
-                '/Osx2UOgAV4X+wCkT1UC9j9AexJWXjDxcDQcy3WB',
-                'webiny',
-                false
-            ]
-        ]
-    ],
-    'tags' => ['cloud']
+$parameters = [
+    'storage.class' => '\Webiny\Component\Storage\Storage',
+    'storage.driver' => '\Webiny\Component\Storage\Driver\AmazonS3\AmazonS3',
+    'driver.args' => [
+        'AKIAIQ2AM5EWWMP32EZA',
+        '/Osx2UOgAV4X+wCkT1UC9j9AexJWXjDxcDQcy3WB',
+        'webiny',
+        false
+    ]
 ];
-ServiceManager::getInstance()->createService('mojServis', new ConfigObject($config));
 
-$amazon = ServiceManager::getInstance()->getServicesByTag('cloud');
+$config = [
+    'WebinyBucket'  => [
+        'Class'     => '%storage.class%',
+        'Arguments' => [
+            'driver' => [
+                'Object'           => '%storage.driver%',
+                'ObjectArguments' => '%driver.args%'
+            ]
+        ],
+        'Tags'      => ['cloud'],
+    ],
+    'PrivateBucket' => [
+        'Class'     => '%storage.class%',
+        'Arguments' => [
+            'driver' => [
+                'Object'           => '%storage.driver%',
+                'ObjectArguments' => [
+                    'AKIAIQ2AM5EWWMP32EZA',
+                    '/Osx2UOgAV4X+wCkT1UC9j9AexJWXjDxcDQcy3WB',
+                    'private',
+                    false
+                ]
+            ]
+        ],
+        'Tags'      => ['cloud'],
+    ]
+];
+
+ServiceManager::getInstance()->registerParameters($parameters)->registerServices('Amazon', new ConfigObject($config));
+
+$amazon = ServiceManager::getInstance()->getService('Amazon.WebinyBucket');
 
 die(print_r($amazon));
 

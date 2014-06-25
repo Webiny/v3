@@ -52,7 +52,7 @@ $config = [
     'WebinyBucket'  => [
         'Class'     => '%storage.class%',
         'Arguments' => [
-            'driver' => [
+            'Driver' => [
                 'Object'           => '%storage.driver%',
                 'ObjectArguments' => '%driver.args%'
             ]
@@ -62,7 +62,7 @@ $config = [
     'PrivateBucket' => [
         'Class'     => '%storage.class%',
         'Arguments' => [
-            'driver' => [
+            'Driver' => [
                 'Object'           => '%storage.driver%',
                 'ObjectArguments' => [
                     'AKIAIQ2AM5EWWMP32EZA',

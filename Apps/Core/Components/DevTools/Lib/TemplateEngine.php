@@ -25,6 +25,15 @@ class TemplateEngine
 
     protected function _init()
     {
+        /**
+         * Set TemplateEngine config to framework component
+         */
+        $templateEngineConfig = Config::getInstance()->getConfig()->get('TemplateEngine', '');
+        \Webiny\Component\TemplateEngine\TemplateEngine::setConfig($templateEngineConfig);
+
+        /**
+         * Get TemplateEngine instance
+         */
         self::$_templateEngine = $this->templateEngine('Smarty');
 
         /**

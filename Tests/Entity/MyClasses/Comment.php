@@ -1,5 +1,5 @@
 <?php
-namespace WebinyPlatform\Tests\MyClasses;
+namespace WebinyPlatform\Tests\Entity\MyClasses;
 
 use WebinyPlatform\Apps\Core\Components\DevTools\Lib\Entity\EntityAbstract;
 
@@ -15,7 +15,7 @@ class Comment extends EntityAbstract
 		$this->attr('text')->char();
 
         // Many2One
-		$this->attr('page')->many2one()->entity('\WebinyPlatform\Tests\MyClasses\Page');
+		$this->attr('page')->many2one()->entity('\WebinyPlatform\Tests\Entity\MyClasses\Page');
 
 	}
 }

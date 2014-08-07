@@ -1,5 +1,5 @@
 <?php
-namespace WebinyPlatform\Tests\MyClasses;
+namespace WebinyPlatform\Tests\Entity\MyClasses;
 
 use WebinyPlatform\Apps\Core\Components\DevTools\Lib\Entity\EntityAbstract;
 
@@ -15,6 +15,6 @@ class Page extends EntityAbstract
 		$this->attr('title')->char();
 
         // One2Many
-		$this->attr('comments')->one2many('page')->entity('\WebinyPlatform\Tests\MyClasses\Comment')->onDelete();
+		$this->attr('comments')->one2many('page')->entity('\WebinyPlatform\Tests\Entity\MyClasses\Comment')->onDelete();
 	}
 }

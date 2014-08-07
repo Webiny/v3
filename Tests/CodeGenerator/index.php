@@ -6,15 +6,16 @@
  * @license   http://www.webiny.com/platform/license
  */
 use Webiny\Component\ClassLoader\ClassLoader;
-use Webiny\Component\Mongo\Mongo;
+use Webiny\Component\Config\ConfigObject;
+use Webiny\Component\ServiceManager\ServiceManager;
 use WebinyPlatform\Apps\Core\Components\Bootstrap\Lib\Bootstrap;
-use WebinyPlatform\Apps\Core\Components\DevTools\Lib\Entity\Entity;
+use WebinyPlatform\Apps\EntityBuilder\Components\CodeGenerator\Lib\CodeGenerator;
 
 
 /**
  * Get absolute path to app root.
  */
-$absPath = realpath(dirname(__FILE__) . '/../../') . '/';
+$absPath = realpath(dirname(__FILE__) . '/../../../') . '/';
 
 /**
  * Register default autoloader before we can do anything else.
@@ -33,27 +34,4 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 Bootstrap::getInstance();
 
-Mongo::setConfig(realpath(__DIR__).'/MongoExampleConfig.yaml');
-Entity::setConfig(realpath(__DIR__).'/EntityExampleConfig.yaml');
-
-/**
- * ENTITY
- */
-/*$page = new \WebinyPlatform\Tests\MyClasses\Page();
-$page->title = 'New title';
-
-$comment = new \WebinyPlatform\Tests\MyClasses\Comment();
-$comment->text = 'New comment';
-
-$page->comments->add($comment);
-$page->save();
-
-die(print_r($page->toArray('id,title,comments.id,comments.text')));*/
-
-$pages = \WebinyPlatform\Tests\MyClasses\Page::find([]);
-foreach($pages as $page){
-    print_r($page->toArray());
-}
-
-die(print_r(\WebinyPlatform\Tests\MyClasses\Page::findById('53df2f346803fa15068b4569')->toArray()));
-
+CodeGenerator::getInstance()->generateEntityCode([]);

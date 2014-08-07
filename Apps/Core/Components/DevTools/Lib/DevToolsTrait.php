@@ -113,9 +113,10 @@ trait DevToolsTrait
     }
 
     /**
-     * @TODO This should return an instance of template engine...
+     * @return \Webiny\Component\TemplateEngine\Bridge\TemplateEngineInterface
      */
     static protected function _wTemplateEngine()
     {
+        return TemplateEngine::getInstance()->getTemplateEngine();
     }
 }

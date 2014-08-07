@@ -1,0 +1,1 @@
+$this->attr('{$attribute.name}')->many2one()->entity('{$attribute.entity}'){if isset($attribute.defaultValue)}->defaultValue('{$attribute.defaultValue}'){/if}{if isset($attribute.required) && $required == true}->required(true){/if};

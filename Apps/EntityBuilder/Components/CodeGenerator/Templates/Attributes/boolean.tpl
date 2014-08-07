@@ -1,0 +1,1 @@
+$this->attr('{$attribute.name}')->boolean(){if isset($attribute.defaultValue)}->defaultValue({$attribute.defaultValue}){/if};

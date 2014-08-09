@@ -112,8 +112,28 @@ class CodeGenerator
     }
 
     private function _validateStructure() {
+        if($this->_structure->key('app', '', true) == ''){
+            throw new CodeGeneratorException(CodeGeneratorException::APP_NAME_NOT_FOUND);
+        }
 
+        if($this->_structure->key('entity', '', true) == ''){
+            throw new CodeGeneratorException(CodeGeneratorException::ENTITY_NAME_NOT_FOUND);
+        }
 
+        if($this->_structure->key('parentEntity', '', true) == ''){
+            // Make sure we have collection set for new entity
+            if($this->_structure->key('collection', '', true) == ''){
+                throw new CodeGeneratorException(CodeGeneratorException::COLLECTION_NAME_NOT_FOUND);
+            }
+        }
+
+        /**
+         * Validate attributes and fix values if necessary (by reference).
+         * After successful validation, assign $attributes back to entity structure.
+         */
+        $attributes = $this->_structure->key('attributes', [], true);
+        AttributeValidator::getInstance()->validate($attributes);
+        $this->_structure->key('attributes', $attributes);
     }
 
     private function _preparePathsAndNamespaces() {

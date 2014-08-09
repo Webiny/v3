@@ -1,78 +1,79 @@
 {
-  "app": "Cms",
-  "entity": "Page",
-  "parentEntity": "",
-  "collection": "CodeGeneratorPage",
-  "mask": "{title} ({id})",
-  "attributes": [
-    {
-      "type": "char",
-      "name": "title",
-      "defaultValue": "New blog post",
-      "required": "false"
-    },
-    {
-      "type": "text",
-      "name": "content",
-      "defaultValue": "",
-      "required": "false"
-    },
-    {
-      "type": "integer",
-      "name": "timesViewed",
-      "defaultValue": "0",
-      "required": "false"
-    },
-    {
-      "type": "float",
-      "name": "abandonedRatio",
-      "defaultValue": "0",
-      "required": "false"
-    },
-    {
-      "type": "boolean",
-      "name": "viewable",
-      "defaultValue": "false",
-      "required": "false"
-    },
-    {
-      "type": "select",
-      "name": "status",
-      "defaultValue": "",
-      "required": "false",
-      "options": {
-        "draft": "Draft",
-        "review": "Review",
-        "published": "Published",
-        "unpublished": "Unpublished"
-      }
-    },
-    {
-      "type": "datetime",
-      "name": "createdAt",
-      "defaultValue": "now",
-      "required": "true",
-      "format": "unix"
-    },
-    {
-      "type": "many2one",
-      "name": "author",
-      "entity": "\\Apps\\Cms\\Entities\\Author",
-      "required": "true"
-    },
-    {
-      "type": "one2many",
-      "name": "comments",
-      "relatedAttribute": "blogPost",
-      "entity": "\\Apps\\Cms\\Entities\\Comment",
-      "required": "true",
-      "onDelete": "cascade"
-    },
-    {
-      "type": "many2many",
-      "name": "labels",
-      "entity": "\\Apps\\Cms\\Entities\\Label",
-      "collection": "Post2Label"
-    }
-  ]
+	"app": "Cms",
+	"entity": "Page",
+	"parentEntity": "",
+	"collection": "CodeGeneratorPage",
+	"mask": "{title} ({id})",
+	"attributes": [
+		{
+			"type": "char",
+			"name": "title",
+			"defaultValue": "New blog post",
+			"required": "false"
+		},
+		{
+			"type": "text",
+			"name": "content",
+			"defaultValue": "",
+			"required": "false"
+		},
+		{
+			"type": "integer",
+			"name": "timesViewed",
+			"defaultValue": "0",
+			"required": "false"
+		},
+		{
+			"type": "float",
+			"name": "abandonedRatio",
+			"defaultValue": "0",
+			"required": "false"
+		},
+		{
+			"type": "boolean",
+			"name": "viewable",
+			"defaultValue": "false",
+			"required": "false"
+		},
+		{
+			"type": "select",
+			"name": "status",
+			"defaultValue": "",
+			"required": "false",
+			"options": {
+				"draft": "Draft",
+				"review": "Review",
+				"published": "Published",
+				"unpublished": "Unpublished"
+			}
+		},
+		{
+			"type": "datetime",
+			"name": "createdAt",
+			"defaultValue": "now",
+			"required": "true",
+			"format": "unix"
+		},
+		{
+			"type": "many2one",
+			"name": "author",
+			"entity": "\\Apps\\Cms\\Entities\\Author",
+			"required": "true"
+		},
+		{
+			"type": "one2many",
+			"name": "comments",
+			"relatedAttribute": "blogPost",
+			"entity": "\\Apps\\Cms\\Entities\\Comment",
+			"required": "true",
+			"onDelete": "restrict"
+		},
+		{
+			"type": "many2many",
+			"name": "labels",
+			"entity": "\\Apps\\Cms\\Entities\\Label",
+			"collection": "Post2Label",
+			"required": "false"
+		}
+	]
 }

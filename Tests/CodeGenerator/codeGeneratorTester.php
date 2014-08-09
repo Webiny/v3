@@ -7,7 +7,7 @@
  */
 use Webiny\Component\ClassLoader\ClassLoader;
 use WebinyPlatform\Apps\Core\Components\Bootstrap\Lib\Bootstrap;
-use WebinyPlatform\Apps\EntityBuilder\Components\CodeGenerator\Lib\CodeGenerator;
+use WebinyPlatform\Apps\Developer\Components\CodeGenerator\Lib\CodeGenerator;
 
 /**
  * Get absolute path to app root.

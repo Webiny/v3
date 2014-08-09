@@ -6,7 +6,7 @@
  * @license   http://www.webiny.com/platform/license
  */
 
-namespace WebinyPlatform\Apps\EntityBuilder\Components\CodeGenerator\Lib;
+namespace WebinyPlatform\Apps\Developer\Components\CodeGenerator\Lib;
 
 use Webiny\Component\StdLib\StdLibTrait;
 use Webiny\Component\StdLib\StdObject\ArrayObject\ArrayObject;
@@ -54,8 +54,8 @@ class CodeGenerator
 
     private function _generateClasses() {
         $entityName = $this->_structure->key('entity');
-        $entityMask = $this->_structure->key('mask');
-        $entityCollection = $this->_structure->key('collection');
+        $entityMask = $this->_structure->key('mask', '', true);
+        $entityCollection = $this->_structure->key('collection', '', true);
         $parentEntity = $this->_structure->key('parentEntity', false, true);
         $parentEntityClass = '';
         $parentEntityNamespace = '';
@@ -68,7 +68,7 @@ class CodeGenerator
         /**
          * Determine attribute class
          */
-        $attributes = $this->_structure->key('attributes');
+        $attributes = $this->_structure->key('attributes', [], true);
         foreach ($attributes as $index => $attribute) {
             $attributes[$index]['typeClass'] = $this->_typeClass[$attribute['type']];
             if(isset($attribute['required'])) {
@@ -112,7 +112,8 @@ class CodeGenerator
     }
 
     private function _validateStructure() {
-        // @TODO: validate JSON structure and verify all required attributes are set
+
+
     }
 
     private function _preparePathsAndNamespaces() {

@@ -11,7 +11,7 @@ use WebinyPlatform\Apps\Cms\Components\Entities\DateTesterEntity;
 use WebinyPlatform\Apps\Core\Components\Bootstrap\Lib\Bootstrap;
 use Webiny\Component\Mongo\Mongo;
 use WebinyPlatform\Apps\Core\Components\DevTools\Lib\Entity\Entity;
-use WebinyPlatform\Apps\EntityBuilder\Components\CodeGenerator\Lib\CodeGenerator;
+use WebinyPlatform\Apps\Developer\Components\CodeGenerator\Lib\CodeGenerator;
 
 /**
  * Get absolute path to app root.

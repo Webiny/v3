@@ -6,11 +6,8 @@
  * @license   http://www.webiny.com/platform/license
  */
 use Webiny\Component\ClassLoader\ClassLoader;
-use Webiny\Component\Config\ConfigObject;
-use Webiny\Component\ServiceManager\ServiceManager;
 use WebinyPlatform\Apps\Core\Components\Bootstrap\Lib\Bootstrap;
 use WebinyPlatform\Apps\EntityBuilder\Components\CodeGenerator\Lib\CodeGenerator;
-
 
 /**
  * Get absolute path to app root.
@@ -34,5 +31,5 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 Bootstrap::getInstance();
 
-$entityStructure = json_decode(file_get_contents('EntityStructure.json'), true);
+$entityStructure = json_decode(file_get_contents('./Json/EntityStructure.json'), true);
 CodeGenerator::getInstance()->generateEntityClass($entityStructure);

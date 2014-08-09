@@ -1,0 +1,27 @@
+{
+  "app": "Cms",
+  "entity": "BlogPost",
+  "parentEntity": "\\WebinyPlatform\\Apps\\Cms\\Components\\Entities\\PageEntity",
+  "collection": "CodeGeneratorBlogPost",
+  "mask": "Blog - {title} ({id})",
+  "attributes": [
+    {
+      "type": "char",
+      "name": "subTitle",
+      "defaultValue": "",
+      "required": "false"
+    },
+	  {
+		  "type": "char",
+		  "name": "anotherCustomAttribute",
+		  "defaultValue": "",
+		  "required": "false"
+	  },
+    {
+      "type": "text",
+      "name": "teaser",
+      "defaultValue": "",
+      "required": "false"
+    }
+  ]
+}

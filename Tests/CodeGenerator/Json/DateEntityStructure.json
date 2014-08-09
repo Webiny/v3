@@ -1,0 +1,37 @@
+{
+	"app": "Cms",
+	"entity": "DateTester",
+	"parentEntity": "\\App\\Cms\\Entities\\Page",
+	"collection": "DateTester",
+	"mask": "DateTester #{id}",
+	"attributes": [
+		{
+			"type": "datetime",
+			"name": "unix",
+			"defaultValue": "now",
+			"required": "true",
+			"format": "unix"
+		},
+		{
+			"type": "datetime",
+			"name": "datetime",
+			"defaultValue": "now",
+			"required": "true",
+			"format": "datetime"
+		},
+		{
+			"type": "datetime",
+			"name": "date",
+			"defaultValue": "now",
+			"required": "true",
+			"format": "date"
+		},
+		{
+			"type": "datetime",
+			"name": "time",
+			"defaultValue": "now",
+			"required": "true",
+			"format": "time"
+		}
+	]
+}

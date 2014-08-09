@@ -9,6 +9,8 @@
 namespace WebinyPlatform\Apps\EntityBuilder\Components\CodeGenerator\Lib;
 
 use Webiny\Component\StdLib\StdLibTrait;
+use Webiny\Component\StdLib\StdObject\ArrayObject\ArrayObject;
+use Webiny\Component\StdLib\StdObject\StdObjectWrapper;
 use Webiny\Component\StdLib\StdObjectTrait;
 use WebinyPlatform\Apps\Core\Components\DevTools\Lib\DevToolsTrait;
 use Webiny\Component\StdLib\SingletonTrait;
@@ -20,6 +22,9 @@ class CodeGenerator
 {
     use SingletonTrait, DevToolsTrait, StdLibTrait;
 
+    /**
+     * @var ArrayObject
+     */
     private $_structure;
     private $_templatesFolder;
     private $_entitiesFolder;
@@ -27,16 +32,16 @@ class CodeGenerator
     private $_entityNamespace;
     private $_generatedEntityNamespace;
     private $_typeClass = [
-        'char' => 'Char',
-        'text' => 'Text',
-        'integer' => 'Integer',
-        'decimal' => 'Decimal',
-        'boolean' => 'Boolean',
-        'select' => 'Select',
-        'datetime' => 'DateTime',
-        'many2one' => 'Many2One',
+        'char'      => 'Char',
+        'text'      => 'Text',
+        'integer'   => 'Integer',
+        'float'     => 'Float',
+        'boolean'   => 'Boolean',
+        'select'    => 'Select',
+        'datetime'  => 'DateTime',
+        'many2one'  => 'Many2One',
         'many2many' => 'Many2Many',
-        'one2many' => 'One2Many',
+        'one2many'  => 'One2Many',
     ];
 
     public function generateEntityClass($structure = []) {
@@ -47,46 +52,63 @@ class CodeGenerator
         $this->_generateClasses();
     }
 
-    private function _generateClasses(){
+    private function _generateClasses() {
         $entityName = $this->_structure->key('entity');
+        $entityMask = $this->_structure->key('mask');
         $entityCollection = $this->_structure->key('collection');
+        $parentEntity = $this->_structure->key('parentEntity', false, true);
+        $parentEntityClass = '';
+        $parentEntityNamespace = '';
+
+        if($parentEntity) {
+            $parentEntityNamespace = $this->str($parentEntity)->trimLeft("\\")->explode('\\')
+                                          ->removeLast($parentEntityClass)->implode('\\')->val();
+        }
 
         /**
          * Determine attribute class
          */
         $attributes = $this->_structure->key('attributes');
-        foreach($attributes as $index => $attribute){
+        foreach ($attributes as $index => $attribute) {
             $attributes[$index]['typeClass'] = $this->_typeClass[$attribute['type']];
+            if(isset($attribute['required'])) {
+                $attributes[$index]['required'] = StdObjectWrapper::toBool($attribute['required']);
+            }
         }
         $this->_structure->key('attributes', $attributes);
 
 
         $data = [
-            'entityName' => $entityName,
-            'entityCollection' => $entityCollection,
-            'entityNamespace' => $this->_entityNamespace,
+            'entityName'               => $entityName,
+            'entityMask'               => $entityMask,
+            'entityCollection'         => $entityCollection,
+            'entityNamespace'          => $this->_entityNamespace,
+            'parentEntity'             => $parentEntity,
+            'parentEntityClass'        => $parentEntityClass,
+            'parentEntityNamespace'    => $parentEntityNamespace,
             'generatedEntityNamespace' => $this->_generatedEntityNamespace,
-            'attributes' => $this->_structure->key('attributes'),
-            'attributesHtml' => $this->_generateAttributes()
+            'attributes'               => $this->_structure->key('attributes')
         ];
 
+        system("rm -rf /var/tmp/smarty/*");
+
         /**
-         * Generate classes
+         * Generate public class if it doesn't exist already
          */
-        $entityClass = $this->_wTemplateEngine()->fetch('AppEntity.tpl', $data);
-        $generatedEntityClass = $this->_wTemplateEngine()->fetch('GeneratedEntity.tpl', $data);
-
         @mkdir($this->_generatedEntitiesFolder, 0755, true);
-        file_put_contents($this->_entitiesFolder.$entityName.'Entity.php', $entityClass);
-        file_put_contents($this->_generatedEntitiesFolder.$entityName.'Entity.php', $generatedEntityClass);
-    }
-
-    private function _generateAttributes(){
-        $attributes = [];
-        foreach($this->_structure->key('attributes') as $attribute){
-            $attributes[] = $this->_wTemplateEngine()->fetch($this->_templatesFolder.'Attributes/'.$attribute['type'].'.tpl', $attribute);
+        $filePath = $this->_entitiesFolder . $entityName . 'Entity.php';
+        if(!file_exists($filePath)) {
+            $entityClass = $this->_wTemplateEngine()->fetch('AppEntity.tpl', $data);
+            file_put_contents($filePath, $entityClass, LOCK_EX);
         }
-        return $attributes;
+
+        /**
+         * Generate system class used as public class parent
+         */
+        $generatedFilePath = $this->_generatedEntitiesFolder . $entityName . 'Entity.php';
+        $generatedEntityClass = $this->_wTemplateEngine()->fetch('GeneratedEntity.tpl', $data);
+        @unlink($generatedFilePath);
+        file_put_contents($generatedFilePath, $generatedEntityClass);
     }
 
     private function _validateStructure() {
@@ -101,7 +123,7 @@ class CodeGenerator
          */
         $applicationPath = $this->_wConfig()->getConfig()->get('Application.AbsolutePath');
         $this->_templatesFolder = realpath(__DIR__ . '/../') . '/Templates/';
-        $this->_entitiesFolder = $applicationPath . 'Public/Apps/' . $appName . '/Component/Entities/';
+        $this->_entitiesFolder = $applicationPath . 'Public/Apps/' . $appName . '/Components/Entities/';
         $this->_generatedEntitiesFolder = $this->_entitiesFolder . 'Generated/';
 
         /**
@@ -115,5 +137,4 @@ class CodeGenerator
          */
         $this->_wTemplateEngine()->setTemplateDir($this->_templatesFolder);
     }
-
 }

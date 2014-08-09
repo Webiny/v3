@@ -1,0 +1,8 @@
+{
+  "app": "Cms",
+  "entity": "VideoBlogPost",
+  "parentEntity": "\\WebinyPlatform\\Apps\\Cms\\Components\\Entities\\BlogPostEntity",
+  "collection": "",
+  "mask": "Video Blog #{id}",
+  "attributes": []
+}

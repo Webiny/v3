@@ -8,25 +8,39 @@
 
 namespace {$generatedEntityNamespace};
 
+{if $parentEntity}
+use {$parentEntityNamespace}\{$parentEntityClass};
+{else}
 use WebinyPlatform\Apps\Core\Components\DevTools\Lib\Entity\EntityAbstract;
+{/if}
 
-class {$entityName}Entity extends EntityAbstract {
+class {$entityName}Entity extends {if $parentEntity}{$parentEntityClass}{else}EntityAbstract{/if}{"\n"}{
+{if $entityCollection != ''}
 
     protected static $_entityCollection = '{$entityCollection}';
+{/if}
+{if $entityMask != ''}
 
-    {foreach from=$attributes item=attribute}
-/**
-    * @return \Webiny\Component\Entity\Attribute\{$attribute['typeClass']}Attribute
-    */
-    public function get{$attribute['name']|ucfirst}(){
+    protected static $_entityMask = '{$entityMask}';
+{/if}
+
+{foreach from=$attributes item=attribute}
+    /**
+     * @return \Webiny\Component\Entity\Attribute\{$attribute['typeClass']}Attribute
+     */
+    public function get{$attribute['name']|ucfirst}() {
         return $this->getAttribute('{$attribute['name']}');
     }
 
-    {/foreach}
-
+{/foreach}
+{if count($attributes) > 0}
 	protected function _entityStructure() {
-    {foreach from=$attributes item=attribute}
-    {include file="./Attributes/{$attribute['type']}.tpl" attribute=$attribute}
-    {/foreach}
+{if $parentEntity && count($attributes) > 0}
+        parent::_entityStructure();
+{/if}
+{foreach from=$attributes item=attribute}
+        {include file="./Attributes/{$attribute.type}.tpl" attribute=$attribute}
+{/foreach}
     }
+{/if}
 }

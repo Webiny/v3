@@ -1,8 +1,8 @@
 {
   "app": "Cms",
-  "entity": "BlogPost",
-  "parentEntity": "\\App\\Cms\\Entities\\Page",
-  "collection": "BlogPost",
+  "entity": "Page",
+  "parentEntity": "",
+  "collection": "CodeGeneratorPage",
   "mask": "{title} ({id})",
   "attributes": [
     {
@@ -24,7 +24,7 @@
       "required": "false"
     },
     {
-      "type": "decimal",
+      "type": "float",
       "name": "abandonedRatio",
       "defaultValue": "0",
       "required": "false"

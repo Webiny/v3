@@ -14,7 +14,7 @@ use WebinyPlatform\Apps\Core\Components\DevTools\Lib\Entity\Entity;
 /**
  * Get absolute path to app root.
  */
-$absPath = realpath(dirname(__FILE__) . '/../../') . '/';
+$absPath = realpath(dirname(__FILE__) . '/../../../') . '/';
 
 /**
  * Register default autoloader before we can do anything else.
@@ -39,21 +39,18 @@ Entity::setConfig(realpath(__DIR__).'/EntityExampleConfig.yaml');
 /**
  * ENTITY
  */
-/*$page = new \WebinyPlatform\Tests\Entity\MyClasses\Page();
+$page = new \WebinyPlatform\Tests\Entity\MyClasses\Page();
 $page->title = 'New title';
 
-$comment = new \WebinyPlatform\Tests\Entity\MyClasses\Comment();
-$comment->text = 'New comment';
+$label = new \WebinyPlatform\Tests\Entity\MyClasses\Label();
+$label->label = 'marketing';
 
-$page->comments->add($comment);
+$page->labels->add($label);
+
 $page->save();
 
-die(print_r($page->toArray('id,title,comments.id,comments.text')));*/
 
-$pages = \WebinyPlatform\Tests\Entity\MyClasses\Page::find([]);
-foreach($pages as $page){
-    print_r($page->toArray());
+foreach($page->labels[0]->pages as $page){
+    echo $page;
 }
-
-die(print_r(\WebinyPlatform\Tests\Entity\MyClasses\Page::findById('53df2f346803fa15068b4569')->toArray()));
 

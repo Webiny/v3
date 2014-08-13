@@ -46,9 +46,9 @@ class DateTesterEntity extends EntityAbstract {
 
     
 	protected function _entityStructure() {
-        $this->attr('unix')->datetime()->format('unix')->defaultValue('now')->required(true);
-        $this->attr('datetime')->datetime()->format('datetime')->defaultValue('now')->required(true);
-        $this->attr('date')->datetime()->format('date')->defaultValue('now')->required(true);
-        $this->attr('time')->datetime()->format('time')->defaultValue('now')->required(true);
+        $this->attr('unix')->datetime()->setFormat('unix')->setDefaultValue('now')->setRequired(true);
+        $this->attr('datetime')->datetime()->setFormat('datetime')->setDefaultValue('now')->setRequired(true);
+        $this->attr('date')->datetime()->setFormat('date')->setDefaultValue('now')->setRequired(true);
+        $this->attr('time')->datetime()->setFormat('time')->setDefaultValue('now')->setRequired(true);
         }
 }

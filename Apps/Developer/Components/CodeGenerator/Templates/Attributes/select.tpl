@@ -10,4 +10,4 @@
 {/foreach}
         ];
 
-        $this->attr('{$attribute.name}')->select()->options(${$attribute.name}Options){if isset($attribute.defaultValue)}->defaultValue('{$attribute.defaultValue}'){/if}{if isset($attribute.required) && $attribute.required == true}->required(true){/if};
+        $this->attr('{$attribute.name}')->select()->setOptions(${$attribute.name}Options){if isset($attribute.defaultValue)}->setDefaultValue('{$attribute.defaultValue}'){/if}{if isset($attribute.required) && $attribute.required == true}->setRequired(true){/if};

@@ -13,9 +13,9 @@ class Page extends EntityAbstract
 		$this->attr('title')->char();
 
         // One2Many
-		$this->attr('comments')->one2many('page')->entity('\WebinyPlatform\Tests\Entity\MyClasses\Comment')->onDelete();
+		$this->attr('comments')->one2many('page')->setEntity('\WebinyPlatform\Tests\Entity\MyClasses\Comment');
 
         // Many2Many
-        $this->attr('labels')->many2many('Label2Page')->entity('\Webiny\Component\Entity\Tests\Classes\Label');
+        $this->attr('labels')->many2many('Label2Page')->setEntity('\WebinyPlatform\Tests\Entity\MyClasses\Label');
 	}
 }

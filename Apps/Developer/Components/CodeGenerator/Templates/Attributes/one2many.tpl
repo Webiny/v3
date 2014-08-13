@@ -1,1 +1,1 @@
-$this->attr('{$attribute.name}')->one2many('{$attribute.relatedAttribute}')->entity('{$attribute.entity}'){if isset($attribute.onDelete)}->onDelete('{$attribute.onDelete}'){/if}{if isset($attribute.required) && $attribute.required == true}->required(true){/if};
+$this->attr('{$attribute.name}')->one2many('{$attribute.relatedAttribute}')->setEntity('{$attribute.entity}'){if isset($attribute.onDelete)}->setOnDelete('{$attribute.onDelete}'){/if}{if isset($attribute.required) && $attribute.required == true}->setRequired(true){/if};

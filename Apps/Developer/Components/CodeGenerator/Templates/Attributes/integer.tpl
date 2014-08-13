@@ -1,1 +1,1 @@
-$this->attr('{$attribute.name}')->integer(){if isset($attribute.defaultValue)}->defaultValue({$attribute.defaultValue}){/if}{if isset($attribute.required) && $attribute.required == true}->required(true){/if};
+$this->attr('{$attribute.name}')->integer(){if isset($attribute.defaultValue)}->setDefaultValue({$attribute.defaultValue}){/if}{if isset($attribute.required) && $attribute.required == true}->setRequired(true){/if};

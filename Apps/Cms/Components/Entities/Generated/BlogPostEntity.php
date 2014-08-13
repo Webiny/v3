@@ -40,8 +40,8 @@ class BlogPostEntity extends PageEntity
 
 	protected function _entityStructure() {
         parent::_entityStructure();
-        $this->attr('subTitle')->char()->defaultValue('');
-        $this->attr('anotherCustomAttribute')->char()->defaultValue('');
-        $this->attr('teaser')->text()->defaultValue('');
+        $this->attr('subTitle')->char()->setDefaultValue('');
+        $this->attr('anotherCustomAttribute')->char()->setDefaultValue('');
+        $this->attr('teaser')->text()->setDefaultValue('');
     }
 }

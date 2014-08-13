@@ -88,11 +88,11 @@ class PageEntity extends EntityAbstract
     }
 
 	protected function _entityStructure() {
-        $this->attr('title')->char()->defaultValue('New blog post');
-        $this->attr('content')->text()->defaultValue('');
-        $this->attr('timesViewed')->integer()->defaultValue(0);
-        $this->attr('abandonedRatio')->float()->defaultValue(0);
-        $this->attr('viewable')->boolean()->defaultValue(false);
+        $this->attr('title')->char()->setDefaultValue('New blog post');
+        $this->attr('content')->text()->setDefaultValue('');
+        $this->attr('timesViewed')->integer()->setDefaultValue(0);
+        $this->attr('abandonedRatio')->float()->setDefaultValue(0);
+        $this->attr('viewable')->boolean()->setDefaultValue(false);
         
         /**
          * Options array for 'status' attribute
@@ -104,10 +104,10 @@ class PageEntity extends EntityAbstract
             'unpublished' => 'Unpublished'
         ];
 
-        $this->attr('status')->select()->options($statusOptions)->defaultValue('');
-        $this->attr('createdAt')->datetime()->format('unix')->defaultValue('now');
-        $this->attr('author')->many2one()->entity('\Apps\Cms\Entities\Author')->required(true);
-        $this->attr('comments')->one2many('blogPost')->entity('\Apps\Cms\Entities\Comment')->onDelete('restrict')->required(true);
-        $this->attr('labels')->many2many('Post2Label')->entity('\Apps\Cms\Entities\Label');
+        $this->attr('status')->select()->setOptions($statusOptions)->setDefaultValue('');
+        $this->attr('createdAt')->datetime()->setFormat('unix')->setDefaultValue('now');
+        $this->attr('author')->many2one()->setEntity('\Apps\Cms\Entities\Author')->setRequired(true);
+        $this->attr('comments')->one2many('blogPost')->setEntity('\Apps\Cms\Entities\Comment')->setOnDelete('restrict')->setRequired(true);
+        $this->attr('labels')->many2many('Post2Label')->setEntity('\Apps\Cms\Entities\Label');
     }
 }

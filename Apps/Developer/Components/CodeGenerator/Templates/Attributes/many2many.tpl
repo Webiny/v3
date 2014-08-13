@@ -1,1 +1,1 @@
-$this->attr('{$attribute.name}')->many2many('{$attribute.collection}')->entity('{$attribute.entity}'){if isset($attribute.required) && $attribute.required == true}->required(true){/if};
+$this->attr('{$attribute.name}')->many2many('{$attribute.collection}')->setEntity('{$attribute.entity}'){if isset($attribute.required) && $attribute.required == true}->setRequired(true){/if};

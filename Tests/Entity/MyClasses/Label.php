@@ -14,6 +14,6 @@ class Label extends EntityAbstract
 		$this->attr('label')->char();
 
         // Many2Many
-        $this->attr('pages')->many2many('Label2Page')->entity('\Webiny\Component\Entity\Tests\Classes\Page');
+        $this->attr('pages')->many2many('Label2Page')->setEntity('\WebinyPlatform\Tests\Entity\MyClasses\Page');
 	}
 }

@@ -13,7 +13,7 @@ class Comment extends EntityAbstract
 		$this->attr('text')->char();
 
         // Many2One
-		$this->attr('page')->many2one()->entity('\WebinyPlatform\Tests\Entity\MyClasses\Page');
+		$this->attr('page')->many2one()->setEntity('\WebinyPlatform\Tests\Entity\MyClasses\Page');
 
 	}
 }

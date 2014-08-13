@@ -1,1 +1,1 @@
-$this->attr('{$attribute.name}')->datetime()->format('{$attribute.format|default:'datetime'}'){if isset($attribute.defaultValue)}->defaultValue('{$attribute.defaultValue}'){/if}{if isset($required) && $required == true}->required(true){/if};
+$this->attr('{$attribute.name}')->datetime()->setFormat('{$attribute.format|default:'datetime'}'){if isset($attribute.defaultValue)}->setDefaultValue('{$attribute.defaultValue}'){/if}{if isset($required) && $required == true}->setRequired(true){/if};

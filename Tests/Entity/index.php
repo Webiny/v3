@@ -47,6 +47,10 @@ $label->label = 'marketing';
 
 $page->labels->add($label);
 
+$comment = new \WebinyPlatform\Tests\Entity\MyClasses\Comment();
+$comment->text = 'First comment';
+$page->comments->add($comment);
+
 $page->save();
 
 

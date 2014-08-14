@@ -1,37 +1,30 @@
 {
 	"app": "Cms",
 	"entity": "DateTester",
-	"parentEntity": "\\App\\Cms\\Entities\\Page",
+	"parentEntity": "",
 	"collection": "DateTester",
 	"mask": "DateTester #{id}",
 	"attributes": [
 		{
 			"type": "datetime",
-			"name": "unix",
-			"defaultValue": "now",
-			"required": "true",
-			"format": "unix"
-		},
-		{
-			"type": "datetime",
 			"name": "datetime",
 			"defaultValue": "now",
 			"required": "true",
-			"format": "datetime"
+			"autoUpdate": "false"
 		},
 		{
 			"type": "datetime",
+			"name": "modified",
+			"defaultValue": "now",
+			"required": "true",
+			"autoUpdate": "true"
+		},
+		{
+			"type": "date",
 			"name": "date",
-			"defaultValue": "now",
+			"defaultValue": "",
 			"required": "true",
-			"format": "date"
-		},
-		{
-			"type": "datetime",
-			"name": "time",
-			"defaultValue": "now",
-			"required": "true",
-			"format": "time"
+			"autoUpdate": "true"
 		}
 	]
 }

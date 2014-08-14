@@ -51,8 +51,15 @@
 			"type": "datetime",
 			"name": "createdAt",
 			"defaultValue": "now",
-			"required": "true",
-			"format": "unix"
+			"autoUpdate": "false",
+			"required": "true"
+		},
+		{
+			"type": "date",
+			"name": "modifiedAt",
+			"defaultValue": "",
+			"autoUpdate": "true",
+			"required": "true"
 		},
 		{
 			"type": "many2one",

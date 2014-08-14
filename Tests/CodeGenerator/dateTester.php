@@ -46,17 +46,14 @@ $dateTester = new DateTesterEntity();
 $date = new DateTimeObject('now');
 
 $data = [
-    'unix'     => $date,
-    'time'     => $date
+    'datetime' => $date,
+    'modified' => $date,
+    'date'     => $date
 ];
 
 $dateTester->populate($data)->save();
 
-/*foreach ($dateTester->getAttributes() as $key => $attr) {
-    echo $key . ': ' . $attr->value() . "<br>";
-}*/
-
 $dateTesters = DateTesterEntity::find();
-foreach($dateTesters as $dt){
+foreach ($dateTesters as $dt) {
     print_r($dt->toArray());
 }

@@ -1,0 +1,1 @@
+$this->attr('{$attribute.name}')->date(){if isset($attribute.autoUpdate)}->setAutoUpdate({$attribute.autoUpdate}){/if}{if isset($attribute.defaultValue)}->setDefaultValue('{$attribute.defaultValue}'){/if}{if isset($required) && $required == true}->setRequired(true){/if};

@@ -29,6 +29,7 @@ class AttributeValidator
         'boolean'   => 'Boolean',
         'select'    => 'Select',
         'datetime'  => 'DateTime',
+        'date'      => 'Date',
         'many2one'  => 'Many2One',
         'many2many' => 'Many2Many',
         'one2many'  => 'One2Many',
@@ -123,24 +124,37 @@ class AttributeValidator
     }
 
     protected function _validateDateTime(ArrayObject $attribute) {
-        /**
-         * Check format
-         */
-        if(!$attribute->keyExists('format')) {
-            throw new CodeGeneratorException(CodeGeneratorException::DATE_FORMAT_PROPERTY_NOT_FOUND, [$attribute->key('name')]);
+        if(!$attribute->keyExists('autoUpdate')) {
+            throw new CodeGeneratorException(CodeGeneratorException::DATE_ATTRIBUTE_AUTO_UPDATE_PROPERTY_NOT_FOUND, [$attribute->key('name')]);
         }
 
         $possibleValues = $this->arr([
-                                         'unix',
-                                         'datetime',
-                                         'date',
-                                         'time'
+                                         'true',
+                                         'false',
                                      ]);
-        if(!$possibleValues->inArray($attribute->key('format'))) {
-            throw new CodeGeneratorException(CodeGeneratorException::INVALID_DATE_FORMAT_PROPERTY_VALUE, [
+        if(!$possibleValues->inArray($attribute->key('autoUpdate'))) {
+            throw new CodeGeneratorException(CodeGeneratorException::INVALID_DATE_AUTO_UPDATE_PROPERTY_VALUE, [
                 $attribute->key('name'),
-                'unix, datetime, date or time',
-                $attribute->key('format')
+                'true or false',
+                $attribute->key('autoUpdate')
+            ]);
+        }
+    }
+
+    protected function _validateDate(ArrayObject $attribute) {
+        if(!$attribute->keyExists('autoUpdate')) {
+            throw new CodeGeneratorException(CodeGeneratorException::DATE_ATTRIBUTE_AUTO_UPDATE_PROPERTY_NOT_FOUND, [$attribute->key('name')]);
+        }
+
+        $possibleValues = $this->arr([
+                                         'true',
+                                         'false',
+                                     ]);
+        if(!$possibleValues->inArray($attribute->key('autoUpdate'))) {
+            throw new CodeGeneratorException(CodeGeneratorException::INVALID_DATE_AUTO_UPDATE_PROPERTY_VALUE, [
+                $attribute->key('name'),
+                'true or false',
+                $attribute->key('autoUpdate')
             ]);
         }
     }
@@ -230,7 +244,11 @@ class AttributeValidator
      * @return string
      */
     private function _normalizeAttributeName($name) {
-        if($this->str($name)->replace(['_','-'], ' ')->subStringCount(' ') > 0) {
+        if($this->str($name)->replace([
+                                          '_',
+                                          '-'
+                                      ], ' ')->subStringCount(' ') > 0
+        ) {
             $name = $this->str($name)->caseLower()->val();
             $name = preg_replace('/([a-z0-9])?([A-Z])/', '$1 $2', $name);
 

@@ -6,8 +6,6 @@
  * @license   http://www.webiny.com/platform/license
  */
 use Webiny\Component\ClassLoader\ClassLoader;
-use Webiny\Component\Config\ConfigObject;
-use Webiny\Component\ServiceManager\ServiceManager;
 use WebinyPlatform\Apps\Core\Components\Bootstrap\Lib\Bootstrap;
 
 

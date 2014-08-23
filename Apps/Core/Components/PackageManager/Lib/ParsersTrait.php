@@ -26,8 +26,7 @@ trait ParsersTrait
      *
      * @param string $path Path to the class.
      */
-    protected function _parseNamespace($path)
-    {
+    protected function _parseNamespace($path) {
         $this->_namespace = $this->str($path)->replace([
                                                            'Public',
                                                            DIRECTORY_SEPARATOR
@@ -43,27 +42,26 @@ trait ParsersTrait
      *
      * @param ConfigObject $info Parsed Component.yaml ConfigObject.
      */
-    private function _parseEvents(ConfigObject $info)
-    {
+    private function _parseEvents(ConfigObject $info) {
         $eventConfig = $info->get('Events', [], true);
-        if (count($eventConfig) > 0) {
+        if(count($eventConfig) > 0) {
             foreach ($eventConfig as $eventGroupName => $eventGroups) {
                 $eventName = $eventGroupName;
                 foreach ($eventGroups as $subGroupName => $subGroupEvents) {
                     $eventName .= '.' . $subGroupName;
                     foreach ($subGroupEvents as $eName => $callback) {
-                        $eventName .= '.' . $eName;
+                        $sEventName = $eventName . '.' . $eName;
 
                         $callback = $this->str($callback)->replace('/', '\\');
 
-                        if(!$callback->contains('::')){
+                        if(!$callback->contains('::')) {
                             $callback->append('::handle');
                         }
 
-                        if ($callback->startsWith('\\')) {
-                            $this->_wEvents()->listen($eventName, $callback->val());
+                        if($callback->startsWith('\\')) {
+                            $this->_wEvents()->listen($sEventName, $callback->val());
                         } else {
-                            $this->_wEvents()->listen($eventName, $this->_namespace . '\\' . $callback->val());
+                            $this->_wEvents()->listen($sEventName, $this->_namespace . '\\' . $callback->val());
                         }
                     }
                 }
@@ -76,10 +74,9 @@ trait ParsersTrait
      *
      * @param ConfigObject $info Parsed Component.yaml ConfigObject.
      */
-    private function _parseRoutes(ConfigObject $info)
-    {
+    private function _parseRoutes(ConfigObject $info) {
         $routes = $info->get('Routes', false);
-        if ($routes) {
+        if($routes) {
             $this->_wRouter()->registerRoutes($routes);
         }
     }

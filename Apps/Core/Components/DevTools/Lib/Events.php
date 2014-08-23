@@ -8,6 +8,7 @@
 
 namespace WebinyPlatform\Apps\Core\Components\DevTools\Lib;
 
+use Webiny\Component\EventManager\Event;
 use Webiny\Component\EventManager\EventManager;
 use Webiny\Component\StdLib\SingletonTrait;
 use Webiny\Component\StdLib\StdLibTrait;
@@ -36,8 +37,7 @@ class Events
     /**
      * Event manager base constructor.
      */
-    protected function _init()
-    {
+    protected function _init() {
         $this->_eventManager = EventManager::getInstance();
     }
 
@@ -46,8 +46,7 @@ class Events
      *
      * @return array
      */
-    public function getListeners()
-    {
+    public function getListeners() {
         return $this->_listeners;
     }
 
@@ -57,7 +56,7 @@ class Events
      *
      * @param array $listeners
      */
-    public function setListeners(array $listeners){
+    public function setListeners(array $listeners) {
         $this->_listeners = $listeners;
     }
 
@@ -69,20 +68,22 @@ class Events
      *
      * @throws \Exception
      */
-    public function listen($event, $handler)
-    {
+    public function listen($event, $handler) {
         $this->_listeners[$event][] = $handler;
     }
 
     /**
      * Fire an event.
      *
-     * @param string $event Event name.
+     * @param string $event      Event name.
+     * @param array  $eventData
+     * @param null   $resultType If specified, the event results will be filtered using given class/interface name
+     *
+     * @return array Returns array of event results
      */
-    public function fire($event)
-    {
-        if ($this->_registerListeners($event)) {
-            $this->_eventManager->fire($event);
+    public function fire($event, $eventData = [], $resultType = null) {
+        if($this->_registerListeners($event)) {
+            return $this->_eventManager->fire($event, $eventData, $resultType);
         }
     }
 
@@ -95,26 +96,24 @@ class Events
      * @return bool
      * @throws \Exception
      */
-    private function _registerListeners($event)
-    {
+    private function _registerListeners($event) {
         // check if we have registered listeners for the given event
-        if (!isset($this->_listeners[$event])) {
+        if(!isset($this->_listeners[$event])) {
             return false;
         }
 
         // check if we have already registered them
-        if (isset($this->_registeredEventListeners[$event])) {
+        if(isset($this->_registeredEventListeners[$event])) {
             return true;
         }
 
         // register the listeners with the event
-        foreach ($this->_listeners as $listener) {
+        foreach ($this->_listeners[$event] as $listener) {
             $listener = explode('::', $listener);
             try {
                 $this->_eventManager->listen($event)->handler($listener[0])->method($listener[1]);
             } catch (\Exception $e) {
-                throw new \Exception($e->getMessage(
-                                     ) . " Event: " . $event . " handler: " . $listener[0] . " method:" . $listener[1]);
+                throw new \Exception($e->getMessage() . " Event: " . $event . " handler: " . $listener[0] . " method:" . $listener[1]);
             }
         }
 

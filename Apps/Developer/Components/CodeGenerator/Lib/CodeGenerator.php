@@ -145,7 +145,7 @@ class CodeGenerator
          */
         $applicationPath = $this->_wConfig()->getConfig()->get('Application.AbsolutePath');
         $this->_templatesFolder = realpath(__DIR__ . '/../') . '/Templates/';
-        $this->_entitiesFolder = $applicationPath . 'Public/Apps/' . $appName . '/Components/Entities/';
+        $this->_entitiesFolder = $applicationPath . 'Public/Apps/' . $appName . '/Components/Entities/Lib/';
         $this->_generatedEntitiesFolder = $this->_entitiesFolder . 'Generated/';
 
         /**

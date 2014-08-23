@@ -9,20 +9,25 @@
 namespace WebinyPlatform\Apps\Core\Components\DevTools\Lib;
 
 use Webiny\Component\Cache\CacheStorage;
+use Webiny\Component\Mongo\Mongo;
+use Webiny\Component\Mongo\MongoTrait;
+use Webiny\Component\ServiceManager\ServiceManager;
 
 /**
  * This trait provides you with access to all core components.
  */
 trait DevToolsTrait
 {
-
     /**
      * Get access to database.
      *
-     * @return Database
+     * @param string $database Name of the database
+     *
+     * @return Mongo
      */
-    static protected function _wDatabase()
+    static protected function _wDatabase($database = 'Webiny')
     {
+        return ServiceManager::getInstance()->getService('Mongo.'.$database);
     }
 
     /**

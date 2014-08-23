@@ -6,14 +6,14 @@
  * @license   http://www.webiny.com/platform/license
  */
 
-namespace WebinyPlatform\Apps\Cms\Components\Entities\Generated;
+namespace WebinyPlatform\Apps\Cms\Components\Content\Entities\Generated;
 
 use WebinyPlatform\Apps\Core\Components\DevTools\Lib\Entity\EntityAbstract;
 
 class PageEntity extends EntityAbstract
 {
 
-    protected static $_entityCollection = 'CodeGeneratorPage';
+    protected static $_entityCollection = 'Page';
 
     protected static $_entityMask = '{title} ({id})';
 
@@ -59,39 +59,11 @@ class PageEntity extends EntityAbstract
         return $this->getAttribute('status');
     }
 
-    /**
-     * @return \Webiny\Component\Entity\Attribute\DateTimeAttribute
-     */
-    public function getCreatedAt() {
-        return $this->getAttribute('createdAt');
-    }
-
-    /**
-     * @return \Webiny\Component\Entity\Attribute\Many2OneAttribute
-     */
-    public function getAuthor() {
-        return $this->getAttribute('author');
-    }
-
-    /**
-     * @return \Webiny\Component\Entity\Attribute\One2ManyAttribute
-     */
-    public function getComments() {
-        return $this->getAttribute('comments');
-    }
-
-    /**
-     * @return \Webiny\Component\Entity\Attribute\Many2ManyAttribute
-     */
-    public function getLabels() {
-        return $this->getAttribute('labels');
-    }
-
 	protected function _entityStructure() {
         $this->attr('title')->char()->setDefaultValue('New blog post');
         $this->attr('content')->text()->setDefaultValue('');
         $this->attr('timesViewed')->integer()->setDefaultValue(0);
-        $this->attr('abandonedRatio')->float()->setDefaultValue(0);
+        $this->attr('abandonedRatio')->float()->setDefaultValue(20);
         $this->attr('viewable')->boolean()->setDefaultValue(false);
         
         /**
@@ -105,9 +77,5 @@ class PageEntity extends EntityAbstract
         ];
 
         $this->attr('status')->select()->setOptions($statusOptions)->setDefaultValue('');
-        $this->attr('createdAt')->datetime()->setFormat('unix')->setDefaultValue('now');
-        $this->attr('author')->many2one()->setEntity('\Apps\Cms\Entities\Author')->setRequired(true);
-        $this->attr('comments')->one2many('blogPost')->setEntity('\Apps\Cms\Entities\Comment')->setOnDelete('restrict')->setRequired(true);
-        $this->attr('labels')->many2many('Post2Label')->setEntity('\Apps\Cms\Entities\Label');
     }
 }

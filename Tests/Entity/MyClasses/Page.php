@@ -8,13 +8,13 @@ class Page extends EntityAbstract
 	protected static $_entityCollection = "Page";
 	protected static $_entityMask = '{title} ({id})';
 
-    protected static function _entityIndexes(){
+    /*protected static function _entityIndexes(){
         return [
             new EntityIndex('myFirstIndex', ['title' => 1]), // Single field index
             new EntityIndex('mySecondIndex', ['title' => 1, 'description' => -1]), // Compound index
             new EntityTextIndex('myTextIndex', ['title']) // Text index
         ];
-    }
+    }*/
 
 	protected function _entityStructure() {
 		// Char

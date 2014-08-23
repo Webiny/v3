@@ -1,0 +1,11 @@
+Name: Content
+Version: 0.1.0
+
+Events:
+    Cms:
+        PageEntity:
+            BeforeSave: EventHandlers/PageEntityHandler::beforeSave
+            AfterSave: EventHandlers/PageEntityHandler::afterSave
+            BeforeDelete: EventHandlers/PageEntityHandler::beforeDelete
+            AfterDelete: EventHandlers/PageEntityHandler::afterDelete
+            Extend: EventHandlers/PageEntityHandler::extend

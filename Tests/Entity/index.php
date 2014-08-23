@@ -7,8 +7,12 @@
  */
 use Webiny\Component\ClassLoader\ClassLoader;
 use Webiny\Component\Mongo\Mongo;
+use WebinyPlatform\Apps\Cms\Components\Content\Entities\CommentEntity;
+use WebinyPlatform\Apps\Cms\Components\Content\Entities\LabelEntity;
+use WebinyPlatform\Apps\Cms\Components\Content\Entities\PageEntity;
 use WebinyPlatform\Apps\Core\Components\Bootstrap\Lib\Bootstrap;
 use WebinyPlatform\Apps\Core\Components\DevTools\Lib\Entity\Entity;
+use WebinyPlatform\Tests\Entity\EntityDataArchiver;
 
 
 /**
@@ -32,29 +36,46 @@ ClassLoader::getInstance()->registerMap([
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 Bootstrap::getInstance();
+\WebinyPlatform\Apps\Core\Components\PackageManager\Lib\PackageScanner::getInstance();
 
 Mongo::setConfig(realpath(__DIR__).'/MongoExampleConfig.yaml');
 Entity::setConfig(realpath(__DIR__).'/EntityExampleConfig.yaml');
 
+
+
 /**
  * ENTITY
  */
-$page = new \WebinyPlatform\Tests\Entity\MyClasses\Page();
+$page = new PageEntity();
+/*
 $page->title = 'New title';
 
-$label = new \WebinyPlatform\Tests\Entity\MyClasses\Label();
+$label = new LabelEntity();
 $label->label = 'marketing';
 
 $page->labels->add($label);
 
-$comment = new \WebinyPlatform\Tests\Entity\MyClasses\Comment();
+$comment = new CommentEntity();
 $comment->text = 'First comment';
 $page->comments->add($comment);
 
-$page->save();
+$page->save();*/
 
 
-foreach($page->labels[0]->pages as $page){
-    echo $page;
+/**
+ * ARCHIVER
+ */
+$archiver = new EntityDataArchiver();
+/* $page = PageEntity::findById('53e197ce6803fa12208b4586');
+$data = $archiver->archive($page);*/
+
+
+$restoredEntity = $archiver->restore(get_class($page), '53e197ce6803fa12208b4586');
+
+if($page == $restoredEntity){
+    die("EQUAL");
+} else {
+    print_r($page->toArray());
+    print_r($restoredEntity->toArray());
+    die("NOT EQUAL");
 }
-

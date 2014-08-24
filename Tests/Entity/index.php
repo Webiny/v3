@@ -7,6 +7,7 @@
  */
 use Webiny\Component\ClassLoader\ClassLoader;
 use Webiny\Component\Mongo\Mongo;
+use WebinyPlatform\Apps\Cms\Components\Content\Entities\AuthorEntity;
 use WebinyPlatform\Apps\Cms\Components\Content\Entities\CommentEntity;
 use WebinyPlatform\Apps\Cms\Components\Content\Entities\LabelEntity;
 use WebinyPlatform\Apps\Cms\Components\Content\Entities\PageEntity;
@@ -46,8 +47,8 @@ Entity::setConfig(realpath(__DIR__).'/EntityExampleConfig.yaml');
 /**
  * ENTITY
  */
-$page = new PageEntity();
-/*
+/*$page = new PageEntity();
+
 $page->title = 'New title';
 
 $label = new LabelEntity();
@@ -55,27 +56,26 @@ $label->label = 'marketing';
 
 $page->labels->add($label);
 
+$author = new AuthorEntity();
+$author->name = 'Pavel';
+
 $comment = new CommentEntity();
 $comment->text = 'First comment';
+$comment->author = $author;
 $page->comments->add($comment);
 
-$page->save();*/
+$page->save();
 
-
+die($page->getId()->getValue());*/
 /**
  * ARCHIVER
  */
-$archiver = new EntityDataArchiver();
-/* $page = PageEntity::findById('53e197ce6803fa12208b4586');
-$data = $archiver->archive($page);*/
+$pageId = '53e1c8b96803fa01188b45e8';
 
+/*$page = PageEntity::findById($pageId);
 
-$restoredEntity = $archiver->restore(get_class($page), '53e197ce6803fa12208b4586');
+$page->delete();*/
 
-if($page == $restoredEntity){
-    die("EQUAL");
-} else {
-    print_r($page->toArray());
-    print_r($restoredEntity->toArray());
-    die("NOT EQUAL");
-}
+/*$restoredEntity = PageEntity::restore($pageId);
+
+print_r($restoredEntity->toArray('*,comments,labels', 5));*/

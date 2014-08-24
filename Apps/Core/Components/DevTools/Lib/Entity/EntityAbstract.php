@@ -8,7 +8,6 @@
 
 namespace WebinyPlatform\Apps\Core\Components\DevTools\Lib\Entity;
 
-use Webiny\Component\Entity\Attribute\BooleanAttribute;
 use Webiny\Component\Entity\Attribute\DateTimeAttribute;
 use WebinyPlatform\Apps\Core\Components\DevTools\Lib\DevToolsTrait;
 use WebinyPlatform\Apps\Core\Components\DevTools\Lib\Entity\Event\EntityDeleteEvent;
@@ -24,9 +23,7 @@ abstract class EntityAbstract extends \Webiny\Component\Entity\EntityAbstract
     private static $_protectedAttributes = [
         'id',
         'createdOn',
-        'modifiedOn',
-        'deletedOn',
-        'deleted'
+        'modifiedOn'
     ];
 
     final public static function wInstall() {
@@ -50,6 +47,15 @@ abstract class EntityAbstract extends \Webiny\Component\Entity\EntityAbstract
         self::_wDatabase()->update(static::$_entityCollection, [], ['$unset' => array_flip($fields)], ['multiple' => true]);
     }
 
+    public static function restore($id){
+        $archiver = Archiver::getInstance();
+        $entity = $archiver->restore(get_called_class(), $id);
+        if($entity->save()){
+            $archiver->remove(get_called_class(), $id);
+        }
+        return $entity;
+    }
+
     /**
      * Get createdOn attribute
      * @return DateTimeAttribute
@@ -66,22 +72,6 @@ abstract class EntityAbstract extends \Webiny\Component\Entity\EntityAbstract
         return $this->getAttribute('modifiedOn');
     }
 
-    /**
-     * Get deletedOn attribute
-     * @return DateTimeAttribute
-     */
-    public function getDeletedOn() {
-        return $this->getAttribute('deletedOn');
-    }
-
-    /**
-     * Get deleted attribute
-     * @return BooleanAttribute
-     */
-    public function getDeleted() {
-        return $this->getAttribute('deleted');
-    }
-
     public function __construct() {
         parent::__construct();
         /**
@@ -90,8 +80,6 @@ abstract class EntityAbstract extends \Webiny\Component\Entity\EntityAbstract
          */
         $this->attr('createdOn')->datetime()->setDefaultValue('now');
         $this->attr('modifiedOn')->datetime()->setDefaultValue('now')->setAutoUpdate(true);
-        $this->attr('deletedOn')->datetime();
-        $this->attr('deleted')->boolean()->setDefaultValue(false);
 
         /**
          * Fire event for registering extra attributes
@@ -101,9 +89,16 @@ abstract class EntityAbstract extends \Webiny\Component\Entity\EntityAbstract
     }
 
     public function delete() {
-        $this->getDeleted()->setValue(true);
-        $this->getDeletedOn()->setValue('now');
+        /**
+         * Make sure the entity instance has an ID
+         */
+        if($this->getId()->getValue() == null){
+            return;
+        }
 
+        /**
+         * Fire "BeforeDelete" event
+         */
         $event = new EntityDeleteEvent($this);
         $this->_wEvents()->fire($this->_getEventName() . '.BeforeDelete', $event);
 
@@ -114,8 +109,19 @@ abstract class EntityAbstract extends \Webiny\Component\Entity\EntityAbstract
             return $event->getEventResult();
         }
 
+        /**
+         * Store entity to archive.
+         * When "archive" method is called, it returns an "archive process id". After first call to "archive" method,
+         * Archiver blocks further calls to that method until the entity that initiated archiving unblocks it by calling "unblock".
+         * To perform unblocking, "archive process id" is required, to identify entity instance that initiated the archiving process.
+         */
+        $archiveProcessId = Archiver::getInstance()->archive($this);
         $deleted = parent::delete();
+        Archiver::getInstance()->unblock($archiveProcessId);
 
+        /**
+         * Fire "AfterDelete" event
+         */
         if($deleted) {
             $this->_wEvents()->fire($this->_getEventName() . '.AfterDelete', $event);
         }

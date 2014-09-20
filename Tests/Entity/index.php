@@ -24,10 +24,9 @@ $absPath = realpath(dirname(__FILE__) . '/../../../') . '/';
 /**
  * Register default autoloader before we can do anything else.
  */
-require $absPath . 'Vendors/Webiny/Component/ClassLoader/ClassLoader.php';
+require $absPath . 'Vendors/vendor/autoload.php';
 ClassLoader::getInstance()->registerMap([
-                                            'WebinyPlatform' => $absPath . 'Public',
-                                            'Webiny'         => $absPath . 'Vendors/Webiny'
+                                            'WebinyPlatform' => $absPath . 'Public'
                                         ]
 );
 
@@ -41,8 +40,6 @@ Bootstrap::getInstance();
 
 Mongo::setConfig(realpath(__DIR__).'/MongoExampleConfig.yaml');
 Entity::setConfig(realpath(__DIR__).'/EntityExampleConfig.yaml');
-
-
 
 /**
  * ENTITY

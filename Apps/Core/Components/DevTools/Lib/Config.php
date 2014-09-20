@@ -33,9 +33,6 @@ class Config
      */
     protected function _init()
     {
-        // before we can use the Config reader, we need to insert the Symfony YAML parse into ClassLoader
-        ClassLoader::getInstance()->appendLibrary("Symfony", Storage::getInstance()->getPath('Vendors/Symfony'));
-
         // create config reader instance
         self::$_configReader = \Webiny\Component\Config\Config::getInstance();
 

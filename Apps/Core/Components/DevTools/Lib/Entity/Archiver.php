@@ -67,12 +67,12 @@ class Archiver
     }
 
     /**
-     * Restore entity from archive. Entity is inserted back to original collection(s) with all IDs preserved.
+     * Restore entity from archive.
      *
      * @param string $class Entity class name
      * @param string $id    Entity instance id
      *
-     * @return mixed
+     * @return EntityAbstract|null
      */
     public function restore($class, $id) {
         $find = [
@@ -80,6 +80,10 @@ class Archiver
             'entityClass' => $class
         ];
         $archive = $this->mongo()->findOne($this->_collectionName, $find);
+
+        if(!$archive){
+            return null;
+        }
 
         $entity = new $class;
 

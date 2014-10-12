@@ -9,6 +9,7 @@
 namespace WebinyPlatform\Apps\Core\Components\DevTools\Lib\Entity;
 
 use Webiny\Component\Entity\Attribute\DateTimeAttribute;
+use Webiny\Component\Entity\Entity;
 use WebinyPlatform\Apps\Core\Components\DevTools\Lib\DevToolsTrait;
 use WebinyPlatform\Apps\Core\Components\DevTools\Lib\Entity\Event\EntityDeleteEvent;
 use WebinyPlatform\Apps\Core\Components\DevTools\Lib\Entity\Event\EntityEvent;
@@ -26,11 +27,18 @@ abstract class EntityAbstract extends \Webiny\Component\Entity\EntityAbstract
         'modifiedOn'
     ];
 
-    final public static function wInstall() {
-
+    final public static function wInstall()
+    {
+        $indexes = static::_entityIndexes();
+        foreach($indexes as $index){
+            if(self::isInstanceOf($index, '\Webiny\Component\Mongo\Index\IndexAbstract')){
+                Entity::getInstance()->getDatabase()->createIndex(static::$_entityCollection, $index);
+            }
+        }
     }
 
-    final public static function wUninstall() {
+    final public static function wUninstall()
+    {
 
     }
 
@@ -39,20 +47,36 @@ abstract class EntityAbstract extends \Webiny\Component\Entity\EntityAbstract
      *
      * @param array $fields
      */
-    final public static function wRemoveFields($fields = []) {
+    final public static function wRemoveFields($fields = [])
+    {
         /**
          * Unset protected attributes
          */
         $fields = array_diff($fields, self::$_protectedAttributes);
-        self::_wDatabase()->update(static::$_entityCollection, [], ['$unset' => array_flip($fields)], ['multiple' => true]);
+        self::_wDatabase()
+            ->update(static::$_entityCollection, [], ['$unset' => array_flip($fields)], ['multiple' => true]);
     }
 
-    public static function restore($id){
+    protected static function _entityIndexes(){
+
+    }
+
+    /**
+     * Restore entity from archive.
+     * Entity is inserted back to original collection(s) with all IDs preserved.
+     *
+     * @param $id
+     *
+     * @return null|\Webiny\Component\Entity\EntityAbstract EntityAbstract instance on success, or NULL on failure
+     */
+    public static function restore($id)
+    {
         $archiver = Archiver::getInstance();
         $entity = $archiver->restore(get_called_class(), $id);
-        if($entity->save()){
+        if($entity && $entity->save()) {
             $archiver->remove(get_called_class(), $id);
         }
+
         return $entity;
     }
 
@@ -60,7 +84,8 @@ abstract class EntityAbstract extends \Webiny\Component\Entity\EntityAbstract
      * Get createdOn attribute
      * @return DateTimeAttribute
      */
-    public function getCreatedOn() {
+    public function getCreatedOn()
+    {
         return $this->getAttribute('createdOn');
     }
 
@@ -68,11 +93,13 @@ abstract class EntityAbstract extends \Webiny\Component\Entity\EntityAbstract
      * Get modifiedOn attribute
      * @return DateTimeAttribute
      */
-    public function getModifiedOn() {
+    public function getModifiedOn()
+    {
         return $this->getAttribute('modifiedOn');
     }
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         /**
          * Add the following built-in system attributes:
@@ -88,11 +115,12 @@ abstract class EntityAbstract extends \Webiny\Component\Entity\EntityAbstract
 
     }
 
-    public function delete() {
+    public function delete()
+    {
         /**
          * Make sure the entity instance has an ID
          */
-        if($this->getId()->getValue() == null){
+        if($this->getId()->getValue() == null) {
             return;
         }
 
@@ -129,7 +157,8 @@ abstract class EntityAbstract extends \Webiny\Component\Entity\EntityAbstract
         return $deleted;
     }
 
-    public function save() {
+    public function save()
+    {
         $event = new EntityEvent($this);
         $this->_wEvents()->fire($this->_getEventName() . '.BeforeSave', $event);
         $save = parent::save();
@@ -144,15 +173,13 @@ abstract class EntityAbstract extends \Webiny\Component\Entity\EntityAbstract
      *
      * @return EntityAttributeBuilder
      */
-    public function attr($attribute) {
+    public function attr($attribute)
+    {
         return EntityAttributeBuilder::getInstance()->__setContext($this->_attributes, $attribute)->__setEntity($this);
     }
 
-    public function archive() {
-
-    }
-
-    private function _getEventName() {
+    private function _getEventName()
+    {
         $classParts = $this->str(get_class($this))->explode('\\');
         $eventName = $classParts[2] . '.' . $classParts[6];
 

@@ -16,3 +16,4 @@ Mongo:
             Class: '\Webiny\Component\Mongo\Mongo'
             Arguments: [127.0.0.1:27017, webiny, null, null, Platform]
     Driver: \Webiny\Component\Mongo\Driver\Mongo
+    ResultClass: \Webiny\Component\Mongo\MongoResult

@@ -16,7 +16,7 @@ class Page extends EntityAbstract
 
 	protected function _entityStructure() {
 		// Char
-		$this->attr('title')->char();
+		$this->attr('title')->char()->setRequired();
 
         // One2Many
 		$this->attr('comments')->one2many('page')->setEntity('\WebinyPlatform\Tests\Entity\MyClasses\Comment');

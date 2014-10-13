@@ -10,7 +10,7 @@ class Comment extends EntityAbstract
 
 	protected function _entityStructure() {
 		// Char
-		$this->attr('text')->char();
+		$this->attr('text')->char()->setDefaultValue('Default title');
 
         // Many2One
 		$this->attr('page')->many2one()->setEntity('\WebinyPlatform\Tests\Entity\MyClasses\Page');

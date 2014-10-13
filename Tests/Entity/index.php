@@ -1,14 +1,40 @@
 <?php
 
+use WebinyPlatform\Tests\Entity\MyClasses\Comment;
+use WebinyPlatform\Tests\Entity\MyClasses\Page;
+
 include 'setup.php';
 
-die("INDEX");
+$comment = new Comment();
+$comment->save();
+die(print_r($comment->toArray()));
+
 /**
  * ENTITY
  */
-/*$page = new PageEntity();
+/*$page = new Page();
+$data = [
+    'title'    => 'attribute',
+    'comments' => [
+        ['id' => '543c0fb76803fa76058b4569'],
+        ['id' => '543c0fda6803fa76058b456f']
+    ]
+];
+try {
+    $page->populate($data);
+} catch (\Webiny\Component\Entity\EntityException $e) {
+    foreach ($e->getInvalidAttributes() as $key => $error) {
+        echo $key . ": " . $error->getMessage() . "<br>";
+    }
+    die();
+}
 
-$page->title = 'New title';
+$page->save();
+
+die(print_r($page->toArray('*,comments.*', 1)));*/
+
+
+/*$page->title = 'New title';
 
 $label = new LabelEntity();
 $label->label = 'marketing';
@@ -25,16 +51,5 @@ $page->comments->add($comment);
 
 $page->save();
 
-die($page->getId()->getValue());*/
-/**
- * ARCHIVER
- */
-$pageId = '53e1c8b96803fa01188b45e8';
-
-/*$page = PageEntity::findById($pageId);
-
-$page->delete();*/
-
-/*$restoredEntity = PageEntity::restore($pageId);
-
-print_r($restoredEntity->toArray('*,comments,labels', 5));*/
+die($page->getId()->getValue());
+*/

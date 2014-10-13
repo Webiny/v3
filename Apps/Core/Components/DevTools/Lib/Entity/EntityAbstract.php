@@ -181,7 +181,7 @@ abstract class EntityAbstract extends \Webiny\Component\Entity\EntityAbstract
     private function _getEventName()
     {
         $classParts = $this->str(get_class($this))->explode('\\');
-        $eventName = $classParts[2] . '.' . $classParts[6];
+        $eventName = $classParts[2] . '.' . $classParts->last();
 
         return $eventName;
 

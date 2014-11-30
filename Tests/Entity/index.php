@@ -5,9 +5,11 @@ use WebinyPlatform\Tests\Entity\MyClasses\Page;
 
 include 'setup.php';
 
-$comment = new Comment();
-$comment->save();
-die(print_r($comment->toArray()));
+$test = new Page();
+$test->title = 123;
+$test->save();
+
+die(print_r($test->toArray()));
 
 /**
  * ENTITY

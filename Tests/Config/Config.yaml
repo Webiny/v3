@@ -1,0 +1,5 @@
+Config:
+    FirstKey:
+        Some: data
+    FirstKey:
+        Other: randomData

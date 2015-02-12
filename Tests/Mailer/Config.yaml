@@ -1,0 +1,21 @@
+Mailer:
+    Mandrill:
+        Mode: html
+        ApiKey: MM2nbGqIlH9r2VPkp7OH4A
+        DisableDelivery: false
+    Swift:
+        Decorators:
+            Wrapper: ['*|', '|*']
+        Sender:
+            Email: 'pavel@webiny.com'
+            Name: 'Pavel D.'
+        Transport:
+            Type: smtp
+            Host: smtp.gmail.com
+            Port: 465
+            Username: pavel910@gmail.com
+            Password: fuckyouasshole!
+            Encryption: ssl
+            AuthMode: login
+    Bridge:
+        Mandrill: \Webiny\Component\Mailer\Bridge\Mandrill\Mandrill

@@ -2,13 +2,18 @@
 
 use WebinyPlatform\Tests\Entity\MyClasses\Comment;
 use WebinyPlatform\Tests\Entity\MyClasses\Page;
+use WebinyPlatform\Tests\Entity\MyClasses\Settings;
 
 include 'setup.php';
 
-$test = new Page();
-$test->title = 123;
-$test->save();
+/*$test = new Settings();
+$test->tag = 'user-settings';
+$test->save();*/
 
+$test = Settings::findOne(['tag' => 'user-settings']);
+$test->settings[] = ['name' => 'Pavel'];
+$test->settings[2] = ['name' => 'Sven'];
+$test->settings = ['name' => 'Sven 2222'];
 die(print_r($test->toArray()));
 
 /**
